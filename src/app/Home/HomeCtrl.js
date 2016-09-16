@@ -13,20 +13,15 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$window', '$timeout', 'cache', '$uibModal', 'UtilService'];
+    HomeController.$inject = ['$scope', '$window', '$timeout', 'cache', '$uibModal', 'HomeService', 'UtilService'];
 
-    function HomeController($scope, $window, $timeout, cache, $uibModal, UtilService) {
+    function HomeController($scope, $window, $timeout, cache, $uibModal, HomeService, UtilService) {
 
         $scope.Data = {};
         $scope.ActiveTab = 0;
 
         $scope.GridOptions = {
-            columnDefs: [
-                { field: 'Station', headerName: 'Station' },
-                { field: 'Build', headerName: 'Build' },
-                { field: 'ReleaseDate', headerName: 'Release Date', cellRenderer: dateRenderer },
-                { field: 'Description', headerName: 'Description' }
-            ],
+            angularCompileRows: true,
             enableColResize: true,
             enableSorting: true,
             enableFilter: false,
@@ -41,10 +36,16 @@
         $scope.onStationsView = function () {
             $scope.ActiveTab = 0;
             $scope.GridOptions.api.setColumnDefs([
-                { field: 'Station', headerName: 'Station' },
-                { field: 'Build', headerName: 'Build' },
-                { field: 'ReleaseDate', headerName: 'Release Date', cellRenderer: dateRenderer },
-                { field: 'Description', headerName: 'Description' }
+                {
+                    field: 'Station', headerName: 'Station', width: 100,
+                    template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Station"></a></span>'
+                },
+                { field: 'Build', headerName: 'Build', width: 75 },
+                { field: 'ReleaseDate', headerName: 'Release Date', width: 75, cellRenderer: dateRenderer },
+                {
+                    field: 'Description', headerName: 'Description',
+                    template: '<span ng-bind="data.Description"></span><a href="" ng-click="onStationDescriptionClick(data)";>&nbsp;...</a>'
+                }
             ]);
             $scope.GridOptions.api.setRowData($scope.Data.Stations);
         };
@@ -52,10 +53,16 @@
         $scope.onComponentsView = function () {
             $scope.ActiveTab = 1;
             $scope.GridOptions.api.setColumnDefs([
-                { field: 'Package', headerName: 'Package' },
-                { field: 'Build', headerName: 'Build' },
-                { field: 'ReleaseDate', headerName: 'Release Date', cellRenderer: dateRenderer },
-                { field: 'Description', headerName: 'Description' }
+                {
+                    field: 'Station', headerName: 'Station', width: 100,
+                    template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Package"></a></span>'
+                },
+                { field: 'Build', headerName: 'Build', width: 75 },
+                { field: 'ReleaseDate', headerName: 'Release Date', width: 75, cellRenderer: dateRenderer },
+                {
+                    field: 'Description', headerName: 'Description',
+                    template: '<span ng-bind="data.Description"></span><a href="" ng-click="onStationDescriptionClick(data)";>&nbsp;...</a>'
+                }
             ]);
             $scope.GridOptions.api.setRowData($scope.Data.Components);
         };
@@ -73,6 +80,20 @@
         //----------------------------------------------------------------------------------------------------
         (function init() {
 
+            HomeService.GetStationData().then(function (data) {
+                $scope.Data.Stations = data;
+                $scope.onStationsView();
+            }).catch(function (err) {
+                UtilService.Error('Error getting station data');
+            });
+
+            HomeService.GetComponentData().then(function (data) {
+                $scope.Data.Components = data;
+                //$scope.onStationsView();
+            }).catch(function (err) {
+                UtilService.Error('Error getting components data');
+            });
+            
         })();
     }
 })();
