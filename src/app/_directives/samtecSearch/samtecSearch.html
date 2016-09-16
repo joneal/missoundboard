@@ -1,0 +1,26 @@
+<div class="st-search clearfix" role="application">
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+                <td class="searchTerm" ng-class="{ narrow: showDates, wide: !showDates }">
+                    <input type="text" ng-model="searchTerm" placeholder="{{placeholder}}" ng-keydown="keyDownHandler($event)" uib-typeahead="entry for entry in myTypeAheadEntries($viewValue)" typeahead-focus-first="false" typeahead-min-length="typeAheadMinLength" />
+                </td>
+                <td class="dates" ng-class="{ expanded: showDates, collapsed: !showDates }" ng-show="showCalendar">
+                    <input type="text" ng-model="startDate" samtec-focus="{{startDateOpened}}" ng-disabled="!showDates" ng-keydown="keyDownHandler($event)" ng-change="startDateChangedHandler()" uib-datepicker-popup="M/d/yyyy" is-open="startDateOpened" max-date="{{ maxDate }}" datepicker-options="dateOptions" ng-click="openStartDate($event)" placeholder="Start Date" show-weeks="false" />
+                    <input type="text" ng-model="endDate" samtec-focus="{{endDateOpened}}" ng-disabled="!showDates" ng-keydown="keyDownHandler($event)" uib-datepicker-popup="M/d/yyyy" is-open="endDateOpened" max-date="{{ maxDate }}" datepicker-options="dateOptions" ng-click="openEndDate($event)" placeholder="End Date" show-weeks="false" />
+                </td>
+                <td class="button" ng-if="showCalendar">
+                    <button type="button" class="btn calendar" aria-label="Dates" ng-click="toggleDates($event)">
+                        <i class="fa fa-calendar" ng-show="!showDates"></i>
+                        <i class="fa fa-close" ng-show="showDates"></i>
+                    </button>
+                </td>
+                <td class="button">
+                    <button class="btn primary search" aria-label="Search" ng-click="searchHandler($event)">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

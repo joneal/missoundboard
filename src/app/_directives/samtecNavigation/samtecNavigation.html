@@ -1,0 +1,14 @@
+<div class="st-navigation nav">
+    <button class="subheader collapsible hidden-sm hidden-md hidden-lg" ng-click="showMenu = !showMenu">
+        Menu
+    </button>
+    <ul class="sub-nav">
+        <li ng-class="{ selected: isSelected(item) }" ng-repeat="item in items">
+            <a ng-href="{{ item.link }}{{ getUrlParams(item.useUrlParams) }}" class="btn" ng-class="{ selected: isSelected(item) }">
+                <div class="swatch" ng-style="{ 'background-color': item.swatchColor }"></div>
+                <span>{{ item.text }}</span>
+                <span class="quantity" ng-show="item.quantity != null">({{ item.quantity | number }})</span>
+            </a>
+        </li>
+    </ul>
+</div>

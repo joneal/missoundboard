@@ -1,0 +1,14 @@
+<section class="l-modal">
+    <div class="l-modal-heading" ng-if="ShowTitle">
+        <h1>{{Title}}</h1>
+    </div>
+    <div class="l-modal-body">
+        <div ng-bind-html="Content"></div>
+    </div>
+    <div class="l-modal-footer">
+        <div class="buttons">
+            <button samtec-focus="true" class="primary" ng-click="onYes();" ng-keypress="($event.which === 13)?onYes():0">Yes</button>
+            <button class="default" ng-click="onNo();">No</button>
+        </div>
+    </div>
+</section>
