@@ -13,9 +13,9 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('IndexController', IndexController);
 
-    IndexController.$inject = ['$rootScope', '$scope', '$q', '$timeout', '$interval', 'cache', '$window', '$location', '$uibModal', 'toastr', 'Fullscreen', 'UtilService'];
+    IndexController.$inject = ['$rootScope', '$scope', '$q', '$timeout', '$interval', 'cache', '$window', '$location', '$uibModal', 'toastr', 'UtilService'];
 
-    function IndexController($rootScope, $scope, $q, $timeout, $interval, cache, $window, $location, $uibModal, toastr, Fullscreen, UtilService) {
+    function IndexController($rootScope, $scope, $q, $timeout, $interval, cache, $window, $location, $uibModal, toastr, UtilService) {
 
         $scope.Username = '';
         $scope.Copyright = '';
@@ -26,16 +26,6 @@
             $scope.Username = '';           
             $window.location.replace('/#/login');
         };
-
-        // $scope.onLogoClick = function () {
-        //     if (Fullscreen.isEnabled()) {
-        //         Fullscreen.cancel();
-        //     } else {
-        //         $scope.DisplayAdminMenu = false;
-        //         $scope.ShowUsersMenuItem = false;
-        //         Fullscreen.all();
-        //     }
-        // };
 
         $scope.$on('user-login', function (event, data) {
             $scope.Username = data;

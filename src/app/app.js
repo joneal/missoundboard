@@ -17,19 +17,14 @@
             'config',
             'ngRoute',
             'ngSanitize',
-            'ngMessages',
             'ngAnimate',
             'ngCookies',
             'agGrid',
             'toastr',
             'ui.bootstrap',
-            'ngEnter',
-            'FBAngular',
-            'samtec-blocker', 'samtec-checkbox', 'samtec-focus', 'samtec-highlight-text',
-            'samtec-navigation', 'samtec-search', 'samtec-validate-email', 'samtec-button-save-effect',
-            'LocalStorageModule',
-            'vertical-pan',
-            'off-filter'
+            //'samtec-blocker', 'samtec-checkbox', 'samtec-focus', 'samtec-highlight-text',
+            //'samtec-navigation', 'samtec-search', 'samtec-validate-email', 'samtec-button-save-effect',
+            'LocalStorageModule'
         ])
         .config(configHandler)
         .run(runHandler);

@@ -17,20 +17,34 @@
 
     function HomeController($scope, $window, $timeout, cache, $uibModal, HomeService, UtilService) {
 
+        var HEADER_ROW_HEIGHT = 40;
+        var ROW_HEIGHT = 40;
+        var PANEL_HEIGHT = 200;
+
         $scope.Data = {};
         $scope.ActiveTab = 0;
 
         $scope.GridOptions = {
-            angularCompileRows: true,
+            // angularCompileRows: true,
+            //rowHeight: ROW_HEIGHT,
+            headerHeight: HEADER_ROW_HEIGHT,
             enableColResize: true,
             enableSorting: true,
             enableFilter: false,
             suppressHorizontalScroll: false,
             onModelUpdated: function (param) { $scope.GridOptions.api.sizeColumnsToFit(); },
-            rowHeight: 40,
-            headerHeight: 40,
             rowSelection: 'none',
-            sortingOrder: ['asc', 'desc']
+            sortingOrder: ['asc', 'desc'],
+            isFullWidthCell: function (rowNode) {
+                return rowNode.flower;
+            },
+            fullWidthCellRenderer: FullWidthCellRenderer,
+            getRowHeight: function (params) {               
+                return params.node.flower ? PANEL_HEIGHT : ROW_HEIGHT;
+            },
+            doesDataFlower: function (dataItem) {
+                return true;
+            }
         };
 
         $scope.onStationsView = function () {
@@ -38,7 +52,8 @@
             $scope.GridOptions.api.setColumnDefs([
                 {
                     field: 'Station', headerName: 'Station', width: 100,
-                    template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Station"></a></span>'
+                    //template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Station"></a></span>'
+                    cellRenderer: 'group'
                 },
                 { field: 'Build', headerName: 'Build', width: 75 },
                 { field: 'ReleaseDate', headerName: 'Release Date', width: 75, cellRenderer: dateRenderer },
@@ -54,8 +69,9 @@
             $scope.ActiveTab = 1;
             $scope.GridOptions.api.setColumnDefs([
                 {
-                    field: 'Station', headerName: 'Station', width: 100,
-                    template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Package"></a></span>'
+                    field: 'Package', headerName: 'Package', width: 100,
+                    // template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Package"></a></span>'
+                    cellRenderer: 'group'
                 },
                 { field: 'Build', headerName: 'Build', width: 75 },
                 { field: 'ReleaseDate', headerName: 'Release Date', width: 75, cellRenderer: dateRenderer },
@@ -75,6 +91,51 @@
             $window.open('http://rathergood.com/punk_kittens/', '_blank');
         };
 
+        function FullWidthCellRenderer() { }
+
+        FullWidthCellRenderer.prototype.init = function (params) {
+            // trick to convert string of html into dom object
+            var eTemp = document.createElement('div');
+            eTemp.innerHTML = this.getTemplate(params);
+            this.eGui = eTemp.firstElementChild;
+
+            this.consumeMouseWheelOnCenterText();
+        };
+
+        FullWidthCellRenderer.prototype.getTemplate = function (params) {
+            // the flower row shares the same data as the parent row
+            // var data = params.node.data;
+
+            var template =
+                '<div class="full-width-panel ag-shadow">' +
+                '  <div class="full-width-center">' + 'Howdy' +
+                '  </div>' +
+                '</div>';
+
+            return template;
+        };
+
+        FullWidthCellRenderer.prototype.getGui = function () {
+            return this.eGui;
+        };
+
+        // if we don't do this, then the mouse wheel will be picked up by the main
+        // grid and scroll the main grid and not this component. this ensures that
+        // the wheel move is only picked up by the text field
+        FullWidthCellRenderer.prototype.consumeMouseWheelOnCenterText = function () {
+            var eFullWidthCenter = this.eGui.querySelector('.full-width-center');
+
+            var mouseWheelListener = function (event) {
+                event.stopPropagation();
+            };
+
+            // event is 'mousewheel' for IE9, Chrome, Safari, Opera
+            eFullWidthCenter.addEventListener('mousewheel', mouseWheelListener);
+            // event is 'DOMMouseScroll' Firefox
+            eFullWidthCenter.addEventListener('DOMMouseScroll', mouseWheelListener);
+        };
+
+
         //----------------------------------------------------------------------------------------------------
         // Controller initialization
         //----------------------------------------------------------------------------------------------------
@@ -89,11 +150,11 @@
 
             HomeService.GetComponentData().then(function (data) {
                 $scope.Data.Components = data;
-                //$scope.onStationsView();
+                $scope.onStationsView();
             }).catch(function (err) {
                 UtilService.Error('Error getting components data');
             });
-            
+
         })();
     }
 })();
