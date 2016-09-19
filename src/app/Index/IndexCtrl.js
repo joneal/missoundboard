@@ -68,8 +68,8 @@
 
         function showNotificationModal(size, title, content) {
             var modalInstance = $uibModal.open({
-                templateUrl: 'Notification/Notification.html',
-                controller: 'NotificationController',
+                templateUrl: 'Notification/MessageBox.html',
+                controller: 'MessageBoxController',
                 animation: false,
                 size: size,
                 resolve: {
@@ -78,9 +78,6 @@
                     },
                     content: function () {
                         return content;
-                    },
-                    touchButton: function () {
-                        return true;
                     }
                 }
             });

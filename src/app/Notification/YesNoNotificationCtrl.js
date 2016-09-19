@@ -11,11 +11,11 @@
 
     angular
         .module('Samtec.Anduin.Installer.Web')
-        .controller('StatusNotificationController', StatusNotificationController);
+        .controller('YesNoNotificationController', YesNoNotificationController);
 
-    StatusNotificationController.$inject = ['$scope', '$uibModalInstance', '$sce', 'cache', 'title', 'content'];
+    YesNoNotificationController.$inject = ['$scope', '$uibModalInstance', '$sce', 'cache', 'title', 'content'];
 
-    function StatusNotificationController($scope, $uibModalInstance, $sce, cache, title, content) {
+    function YesNoNotificationController($scope, $uibModalInstance, $sce, cache, title, content) {
 
         $scope.Title = title;
         $scope.ShowTitle = (title !== '');

@@ -13,9 +13,9 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$window', '$timeout', 'cache', '$uibModal', 'HomeService', 'UtilService'];
+    HomeController.$inject = ['$scope', '$window', '$timeout', 'cache', '$uibModal', 'HomeService', 'UtilService', 'ENV'];
 
-    function HomeController($scope, $window, $timeout, cache, $uibModal, HomeService, UtilService) {
+    function HomeController($scope, $window, $timeout, cache, $uibModal, HomeService, UtilService, ENV) {
 
         var HEADER_ROW_HEIGHT = 40;
         var ROW_HEIGHT = 40;
@@ -25,8 +25,7 @@
         $scope.ActiveTab = 0;
 
         $scope.GridOptions = {
-            // angularCompileRows: true,
-            //rowHeight: ROW_HEIGHT,
+            angularCompileRows: true,
             headerHeight: HEADER_ROW_HEIGHT,
             enableColResize: true,
             enableSorting: true,
@@ -39,7 +38,7 @@
                 return rowNode.flower;
             },
             fullWidthCellRenderer: FullWidthCellRenderer,
-            getRowHeight: function (params) {               
+            getRowHeight: function (params) {
                 return params.node.flower ? PANEL_HEIGHT : ROW_HEIGHT;
             },
             doesDataFlower: function (dataItem) {
@@ -70,14 +69,13 @@
             $scope.GridOptions.api.setColumnDefs([
                 {
                     field: 'Package', headerName: 'Package', width: 100,
-                    // template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Package"></a></span>'
-                    cellRenderer: 'group'
+                    template: '<span><a href="" ng-click="onPackageClick(data)"; ng-bind="data.Package"></a></span>'
                 },
                 { field: 'Build', headerName: 'Build', width: 75 },
                 { field: 'ReleaseDate', headerName: 'Release Date', width: 75, cellRenderer: dateRenderer },
                 {
                     field: 'Description', headerName: 'Description',
-                    template: '<span ng-bind="data.Description"></span><a href="" ng-click="onStationDescriptionClick(data)";>&nbsp;...</a>'
+                    template: '<span ng-bind="data.Description"></span><a href="" ng-click="onPackageDescriptionClick(data)";>&nbsp;...</a>'
                 }
             ]);
             $scope.GridOptions.api.setRowData($scope.Data.Components);
@@ -87,10 +85,52 @@
             return moment(params.value).format('llll');
         }
 
+        $scope.onPackageClick = function (data) {
+            $uibModal.open({
+                templateUrl: 'Notification/YesNoNotification.html',
+                controller: 'YesNoNotificationController',
+                animation: false,
+                size: 'md',
+                resolve: {
+                    title: function () {
+                        return 'Download';
+                    },
+                    content: function () {
+                        return 'Do you wish to download package - ' + data.Package.toUpperCase() + '?';
+                    }
+                }
+            }).result.then(function yes() {
+                // Download from AWS S3 via service?
+                AWS.config.update({ accessKeyId: ENV.AWS_ACCESS_KEY_ID, secretAccessKey: ENV.AWS_SECRET_ACCESS_KEY });
+                AWS.config.region = 'us-east-1';
+
+                var bucket = new AWS.S3({ params: { Bucket: 'anduin-installers' } });
+                // bucket.listObjects(function(err,data){
+                //     if(err){
+                //         console.log(err);
+                //     } else {
+                //         console.log(data);
+                //     }
+                // });
+                var fileName = 'dotNetFx40_Full_x86_x64.exe';
+                bucket.getObject({ Key: fileName }, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        saveAs(new Blob([data.Body], {type: 'application/octet-stream'}), fileName);
+                    }
+                });
+            }, function no() { });
+        };
+
+        $scope.onPackageDescriptionClick = function (data) {
+            // Link to release notes, or download?
+        };
+
         $scope.onDontClick = function () {
             $window.open('http://rathergood.com/punk_kittens/', '_blank');
         };
-
+       
         function FullWidthCellRenderer() { }
 
         FullWidthCellRenderer.prototype.init = function (params) {

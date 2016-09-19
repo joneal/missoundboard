@@ -11,11 +11,11 @@
 
     angular
         .module('Samtec.Anduin.Installer.Web')
-        .controller('NotificationController', NotificationController);
+        .controller('MessageBoxController', MessageBoxController);
 
-    NotificationController.$inject = ['$scope', '$uibModalInstance', '$sce', 'cache', 'title', 'content'];
+    MessageBoxController.$inject = ['$scope', '$uibModalInstance', '$sce', 'cache', 'title', 'content'];
 
-    function NotificationController($scope, $uibModalInstance, $sce, cache, title, content) {
+    function MessageBoxController($scope, $uibModalInstance, $sce, cache, title, content) {
 
         $scope.Title = title;
         $scope.ShowTitle = (title !== '');

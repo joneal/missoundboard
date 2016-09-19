@@ -42,18 +42,14 @@ var vendorJs = [
     './bower_components/angular-bootstrap/ui-bootstrap.min.js',
     './bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
     './bower_components/angular-animate/angular-animate.min.js',
-    './bower_components/angular-messages/angular-messages.min.js',
     './bower_components/angular-toastr/dist/angular-toastr.min.js',
     './bower_components/angular-toastr/dist/angular-toastr.tpls.min.js',
-    './bower_components/angular-touch/angular-touch.min.js',
     './bower_components/angular-cookies/angular-cookies.min.js',
     './bower_components/lodash/dist/lodash.min.js',
     './bower_components/moment/min/moment.min.js',
     './bower_components/angular-local-storage/dist/angular-local-storage.min.js',
-    './bower_components/ag-grid/dist/ag-grid.min.js',
-    './bower_components/angular-fullscreen/src/angular-fullscreen.js',
-    './bower_components/hammerjs/hammer.min.js',
-    './bower_components/js-xlsx/dist/xlsx.core.min.js'
+    './bower_components/ag-grid/dist/ag-grid.min.js',   
+    './bower_components/aws-sdk/dist/aws-sdk.min.js'
 ];
 
 // Only glob specific vendor style sheet files
