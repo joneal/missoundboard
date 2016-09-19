@@ -113,7 +113,8 @@
                 //     }
                 // });
                 var fileName = 'dotNetFx40_Full_x86_x64.exe';
-                bucket.getObject({ Key: fileName }, function (err, data) {
+                var filePath = 'packages/' + fileName;
+                bucket.getObject({ Key: filePath }, function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
