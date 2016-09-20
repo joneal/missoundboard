@@ -1,7 +1,24 @@
-<div class="full-width-panel ag-shadow">
+<div class="full-width-panel">
     <div class="full-width-center">
-        <div ng-repeat="p in ChildData.Packages">
-            {{p.Name}} {{p.Build}}
+        <div class="row">
+            <div class="col-sm-7" style="border:1px solid red;">
+                <div class="row">
+                    <div class="col-sm-3 child-panel-grid-header">Package</div>
+                    <div class="col-sm-2 child-panel-grid-header">Build</div>
+                    <div class="col-sm-2 child-panel-grid-header">Release Date</div>
+                    <div class="col-sm-5 child-panel-grid-header">Description</div>
+                </div>
+                <div class="row" ng-repeat="p in ChildData.Packages">
+                    <div class="col-sm-3"><a href="" ng-click="onPackageClick(p)">{{p.Name}}</a></div>
+                    <div class="col-sm-2">{{p.Build}}</div>
+                    <div class="col-sm-2">{{p.ReleaseDate | date}}</div>
+                    <div class="col-sm-5">
+                        {{p.Description}}&nbsp;
+                        <a href="" ng-if="p.ReleaseNotesLink" ng-click="onDescriptionClick(p);"><i class="fa fa-info-circle"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5" style="border:1px solid blue;"></div>
         </div>
     </div>
 </div>

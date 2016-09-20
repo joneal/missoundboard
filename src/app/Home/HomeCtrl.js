@@ -139,6 +139,10 @@
             // The flower row shares the same data as the parent row
             $scope.ChildData.Packages = params.node.data.Packages;
 
+            _.forEach($scope.ChildData.Packages, function(p){
+                p.ReleaseDate = new Date(p.ReleaseDate);
+            });
+            
             return $templateCache.get('Home/ChildPanel.html');          
         };
 
@@ -160,24 +164,6 @@
             eFullWidthCenter.addEventListener('mousewheel', mouseWheelListener);
             // event is 'DOMMouseScroll' Firefox
             eFullWidthCenter.addEventListener('DOMMouseScroll', mouseWheelListener);
-        };
-
-        $scope.ChildGridOptions = {
-            columnDefs: [
-                { field: 'Name', headerName: 'Package', width: 100 },
-                { field: 'Build', headerName: 'Build', width: 75, suppressSorting: true },
-                //{ field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
-                { field: 'Description', headerName: 'Description', suppressSorting: true }
-            ],
-            angularCompileRows: true,
-            headerHeight: 25,
-            rowHeight: 25,
-            enableColResize: true,
-            enableSorting: true,
-            suppressHorizontalScroll: false,
-            onModelUpdated: function (param) { $scope.ChildGridOptions.api.sizeColumnsToFit(); },
-            rowSelection: 'none',
-            sortingOrder: ['asc', 'desc'],
         };
 
         //----------------------------------------------------------------------------------------------------
