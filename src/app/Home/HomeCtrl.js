@@ -26,6 +26,8 @@
         $scope.Data = {};
         $scope.ActiveTab = 0;
 
+        $scope.ChildData = {};
+
         $scope.GridOptions = {
             angularCompileRows: true,
             headerHeight: HEADER_ROW_HEIGHT,
@@ -134,12 +136,14 @@
         };
 
         FullWidthCellRenderer.prototype.getTemplate = function (params) {
-            // the flower row shares the same data as the parent row
-            // var data = params.node.data;
+            // The flower row shares the same data as the parent row
+            $scope.ChildData.Packages = params.node.data.Packages;
+            //$scope.ChildGridOptions.api.setRowData($scope.ChildData.Packages);
 
             var template =
                 '<div class="full-width-panel ag-shadow">' +
-                '  <div class="full-width-center">' + 'Howdy' +
+                '  <div class="full-width-center">' + 'Howdy' + 
+                //'     <div class="ag-samtec ag-shadow" ag-grid="ChildGridOptions" style="height:100%;"></div>' +
                 '  </div>' +
                 '</div>';
 
@@ -150,9 +154,9 @@
             return this.eGui;
         };
 
-        // if we don't do this, then the mouse wheel will be picked up by the main
-        // grid and scroll the main grid and not this component. this ensures that
-        // the wheel move is only picked up by the text field
+        // If we don't do this, then the mouse wheel will be picked up by the main
+        // grid and scroll the main grid and not this component. This ensures that
+        // the wheel move is only picked up by the text field.
         FullWidthCellRenderer.prototype.consumeMouseWheelOnCenterText = function () {
             var eFullWidthCenter = this.eGui.querySelector('.full-width-center');
 
@@ -164,6 +168,24 @@
             eFullWidthCenter.addEventListener('mousewheel', mouseWheelListener);
             // event is 'DOMMouseScroll' Firefox
             eFullWidthCenter.addEventListener('DOMMouseScroll', mouseWheelListener);
+        };
+
+        $scope.ChildGridOptions = {
+            columnDefs: [
+                { field: 'Name', headerName: 'Package', width: 100 },
+                { field: 'Build', headerName: 'Build', width: 75, suppressSorting: true },
+                //{ field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
+                { field: 'Description', headerName: 'Description', suppressSorting: true }
+            ],
+            angularCompileRows: true,
+            headerHeight: 25,
+            rowHeight: 25,
+            enableColResize: true,
+            enableSorting: true,
+            suppressHorizontalScroll: false,
+            onModelUpdated: function (param) { $scope.ChildGridOptions.api.sizeColumnsToFit(); },
+            rowSelection: 'none',
+            sortingOrder: ['asc', 'desc'],
         };
 
         // Convert an array buffer to a string
@@ -193,6 +215,25 @@
                     var object = JSON.parse(jsonString);
                     $scope.Data.Stations = object.Stations;
                     $scope.Data.Packages = object.Packages;
+
+                    // Fixup Packages list in each Station.  Only the 'Name' and 'Build' properties are 
+                    // set in the Packages list of each Station.  So loop thru the general Packages list and find 
+                    // a match based on 'Name' and 'Build'.  Once found, create new properties in the Station Package for 
+                    // ReleaseDate, Description, etc.
+                    _.forEach($scope.Data.Stations, function(station){
+                        _.forEach(station.Packages, function(stationPackage){
+                            var p = _.find($scope.Data.Packages, {Name: stationPackage.Name, Build: stationPackage.Build});
+                            if(p){
+                                stationPackage.ReleaseDate = p.ReleaseDate;
+                                stationPackage.Description = p.Description;
+                                stationPackage.ReleaseNotesLink = p.ReleaseNotesLink;
+                                stationPackage.Filename = p.Filename;
+                                stationPackage.FilePath = p.FilePath;
+                            }
+                        });
+                    });
+
+                    // Start by showing the Stations tab / data.
                     $scope.onStationsView();
                 }
             });

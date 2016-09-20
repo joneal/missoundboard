@@ -7,7 +7,17 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations"
+            "FilePath": "stations",
+            "Packages": [
+                {
+                    "Name": "Anduin 2015.05.11.0945",
+                    "Build": "2015.05.11.0945"
+                },
+                {
+                    "Name": ".NET Framework 4.5.2",
+                    "Build": "4.0.30319.34000"
+                }
+            ]
         },
         {
             "Name": "Optics DC Tester",
@@ -16,7 +26,17 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations"
+            "FilePath": "stations",
+            "Packages": [
+                {
+                    "Name": "Anduin 2015.05.11.0945",
+                    "Build": "2015.05.11.0945"
+                },
+                {
+                    "Name": ".NET Framework 4.5.2",
+                    "Build": "4.0.30319.34000"
+                }
+            ]
         },
         {
             "Name": "Micro Programmer",
@@ -25,7 +45,17 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations"
+            "FilePath": "stations",
+            "Packages": [
+                {
+                    "Name": "Anduin 2015.05.11.0945",
+                    "Build": "2015.05.11.0945"
+                },
+                {
+                    "Name": ".NET Framework 4.5.2",
+                    "Build": "4.0.30319.34000"
+                }
+            ]
         },
         {
             "Name": "Optics Fiber Attach",
@@ -34,7 +64,17 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations"
+            "FilePath": "stations",
+            "Packages": [
+                {
+                    "Name": "Anduin 2015.05.11.0945",
+                    "Build": "2015.05.11.0945"
+                },
+                {
+                    "Name": ".NET Framework 4.5.2",
+                    "Build": "4.0.30319.34000"
+                }
+            ]
         },
         {
             "Name": "HDR Leakage Tester",
@@ -43,7 +83,17 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations"
+            "FilePath": "stations",
+            "Packages": [
+                {
+                    "Name": "Anduin 2015.05.11.0945",
+                    "Build": "2015.05.11.0945"
+                },
+                {
+                    "Name": ".NET Framework 4.5.2",
+                    "Build": "4.0.30319.34000"
+                }
+            ]
         },
         {
             "Name": "HDR RF Tester",
@@ -52,7 +102,17 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations"
+            "FilePath": "stations",
+            "Packages": [
+                {
+                    "Name": "Anduin 2015.05.11.0945",
+                    "Build": "2015.05.11.0945"
+                },
+                {
+                    "Name": ".NET Framework 4.5.2",
+                    "Build": "4.0.30319.34000"
+                }
+            ]
         }
     ],
     "Packages": [
