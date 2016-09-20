@@ -1,22 +1,105 @@
 {
-    "Packages" : [
+    "Stations": [
         {
-            "Name" : ".NET Framework 4.0",
-            "Build" : "4.0.30319.17000",
-            "ReleaseDate" : "2/21/2011",
-            "Description" : "Full offline installer for the .NET Framework 4.0",
-            "ReleaseNotesLink" : "https://msdn.microsoft.com/en-us/library/ms171868(v=VS.100).aspx",
-            "Filename" : "dotNetFx40_Full_x86_x64.exe",
-            "FilePath" : "packages"
+            "Name": "Optics RF Tester",
+            "Build": "4.0.30319.17000",
+            "ReleaseDate": "2/21/2011",
+            "Description": "",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "stations"
         },
         {
-            "Name" : ".NET Framework 4.5.2",
-            "Build" : "4.0.30319.34000",
-            "ReleaseDate" : "5/5/2014",
-            "Description" : "Full offline installer for the .NET Framework 4.5.2",
-            "ReleaseNotesLink" : "https://msdn.microsoft.com/en-us/library/ms171868(v=vs.110)#v452",
-            "Filename" : "NDP452-KB2901907-x86-x64-AllOS-ENU.exe",
-            "FilePath" : "packages"
+            "Name": "Optics DC Tester",
+            "Build": "4.0.30319.17000",
+            "ReleaseDate": "2/21/2011",
+            "Description": "",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "stations"
+        },
+        {
+            "Name": "Micro Programmer",
+            "Build": "4.0.30319.17000",
+            "ReleaseDate": "2/21/2011",
+            "Description": "",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "stations"
+        },
+        {
+            "Name": "Optics Fiber Attach",
+            "Build": "4.0.30319.17000",
+            "ReleaseDate": "2/21/2011",
+            "Description": "",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "stations"
+        },
+        {
+            "Name": "HDR Leakage Tester",
+            "Build": "4.0.30319.17000",
+            "ReleaseDate": "2/21/2011",
+            "Description": "",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "stations"
+        },
+        {
+            "Name": "HDR RF Tester",
+            "Build": "4.0.30319.17000",
+            "ReleaseDate": "2/21/2011",
+            "Description": "",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "stations"
+        }
+    ],
+    "Packages": [
+        {
+            "Name": ".NET Framework 4.0",
+            "Build": "4.0.30319.17000",
+            "ReleaseDate": "2/21/2011",
+            "Description": "Full offline installer for the .NET Framework 4.0",
+            "ReleaseNotesLink": "https://msdn.microsoft.com/en-us/library/ms171868(v=VS.100).aspx",
+            "Filename": "dotNetFx40_Full_x86_x64.exe",
+            "FilePath": "packages"
+        },
+        {
+            "Name": ".NET Framework 4.5.2",
+            "Build": "4.0.30319.34000",
+            "ReleaseDate": "5/5/2014",
+            "Description": "Full offline installer for the .NET Framework 4.5.2",
+            "ReleaseNotesLink": "https://msdn.microsoft.com/en-us/library/ms171868(v=vs.110)#v452",
+            "Filename": "NDP452-KB2901907-x86-x64-AllOS-ENU.exe",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Anduin 2015.05.11.0945",
+            "Build": "2015.05.11.0945",
+            "ReleaseDate": "05/11/2015",
+            "Description": "Anduin installer supporting some stuff",
+            "ReleaseNotesLink": "",
+            "Filename": "Anduin_201505110945.exe",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Anduin 2015.12.23.1313",
+            "Build": "2015.12.23.1313",
+            "ReleaseDate": "12/13/2015",
+            "Description": "Anduin installer with festive Christmas icons",
+            "ReleaseNotesLink": "",
+            "Filename": "Anduin_201512231313.exe",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Anduin 2016.08.15.1123",
+            "Build": "2016.08.15.1123",
+            "ReleaseDate": "08/15/2016",
+            "Description": "Anduin installer supporting MongoDB for measurements",
+            "ReleaseNotesLink": "",
+            "Filename": "Anduin_201608151123.exe",
+            "FilePath": "packages"
         }
     ]
 }

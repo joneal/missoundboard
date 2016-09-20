@@ -52,15 +52,14 @@
             $scope.ActiveTab = 0;
             $scope.GridOptions.api.setColumnDefs([
                 {
-                    field: 'Station', headerName: 'Station', width: 100,
-                    //template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Station"></a></span>'
-                    cellRenderer: 'group'
+                    field: 'Name', headerName: 'Station', width: 100,
+                    cellRenderer: 'group', cellRendererParams: { innerRenderer: stationRenderer }
                 },
-                { field: 'Build', headerName: 'Build', width: 75 },
-                { field: 'ReleaseDate', headerName: 'Release Date', width: 75, cellRenderer: dateRenderer },
+                { field: 'Build', headerName: 'Build', width: 75, suppressSorting: true },
+                { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
                 {
-                    field: 'Description', headerName: 'Description',
-                    template: '<span ng-bind="data.Description"></span><a href="" ng-click="onStationDescriptionClick(data)";>&nbsp;...</a>'
+                    field: 'Description', headerName: 'Description', suppressSorting: true,
+                    template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-if="data.ReleaseNotesLink" ng-click="onDescriptionClick(data);"><i class="fa fa-info-circle"></i></a>'
                 }
             ]);
             $scope.GridOptions.api.setRowData($scope.Data.Stations);
@@ -73,15 +72,19 @@
                     field: 'Name', headerName: 'Package', width: 100,
                     template: '<span><a href="" ng-click="onPackageClick(data)"; ng-bind="data.Name"></a></span>'
                 },
-                { field: 'Build', headerName: 'Build', width: 75 },
-                { field: 'ReleaseDate', headerName: 'Release Date', width: 75, cellRenderer: dateRenderer },
+                { field: 'Build', headerName: 'Build', width: 75, suppressSorting: true },
+                { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
                 {
-                    field: 'Description', headerName: 'Description',
-                    template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-click="onPackageDescriptionClick(data)";><i class="fa fa-info-circle"></i></a>'
+                    field: 'Description', headerName: 'Description', suppressSorting: true,
+                    template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-if="data.ReleaseNotesLink" ng-click="onDescriptionClick(data);"><i class="fa fa-info-circle"></i></a>'
                 }
             ]);
             $scope.GridOptions.api.setRowData($scope.Data.Packages);
         };
+
+        function stationRenderer(params) {
+            return '&nbsp;<span>' + params.data.Name + '</span>';
+        }
 
         function dateRenderer(params) {
             return moment(params.data.ReleaseDate).format('ll');
@@ -114,7 +117,7 @@
             }, function no() { });
         };
 
-        $scope.onPackageDescriptionClick = function (data) {
+        $scope.onDescriptionClick = function (data) {
             // Link to release notes, or download?
             $window.open(data.ReleaseNotesLink, '_blank');
         };
@@ -188,7 +191,7 @@
                     // the string to a JSON object.
                     var jsonString = ab2str(data.Body);
                     var object = JSON.parse(jsonString);
-                    $scope.Data.Stations = data.Stations;
+                    $scope.Data.Stations = object.Stations;
                     $scope.Data.Packages = object.Packages;
                     $scope.onStationsView();
                 }
