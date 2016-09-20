@@ -13,9 +13,9 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$window', '$timeout', '$document', 'cache', '$uibModal', 'UtilService', 'ENV'];
+    HomeController.$inject = ['$scope', '$window', '$timeout', '$document', '$templateCache', 'cache', '$uibModal', 'UtilService', 'ENV'];
 
-    function HomeController($scope, $window, $timeout, $document, cache, $uibModal, UtilService, ENV) {
+    function HomeController($scope, $window, $timeout, $document, $templateCache, cache, $uibModal, UtilService, ENV) {
 
         var HEADER_ROW_HEIGHT = 40;
         var ROW_HEIGHT = 40;
@@ -132,28 +132,20 @@
             eTemp.innerHTML = this.getTemplate(params);
             this.eGui = eTemp.firstElementChild;
 
-            this.consumeMouseWheelOnCenterText();
+            //this.consumeMouseWheelOnCenterText();
         };
 
         FullWidthCellRenderer.prototype.getTemplate = function (params) {
             // The flower row shares the same data as the parent row
             $scope.ChildData.Packages = params.node.data.Packages;
-            //$scope.ChildGridOptions.api.setRowData($scope.ChildData.Packages);
 
-            var template =
-                '<div class="full-width-panel ag-shadow">' +
-                '  <div class="full-width-center">' + 'Howdy' + 
-                //'     <div class="ag-samtec ag-shadow" ag-grid="ChildGridOptions" style="height:100%;"></div>' +
-                '  </div>' +
-                '</div>';
-
-            return template;
+            return $templateCache.get('Home/ChildPanel.html');          
         };
 
         FullWidthCellRenderer.prototype.getGui = function () {
             return this.eGui;
         };
-
+       
         // If we don't do this, then the mouse wheel will be picked up by the main
         // grid and scroll the main grid and not this component. This ensures that
         // the wheel move is only picked up by the text field.
@@ -188,11 +180,6 @@
             sortingOrder: ['asc', 'desc'],
         };
 
-        // Convert an array buffer to a string
-        function ab2str(buf) {
-            return String.fromCharCode.apply(null, new Uint16Array(buf));
-        }
-
         //----------------------------------------------------------------------------------------------------
         // Controller initialization
         //----------------------------------------------------------------------------------------------------
@@ -211,7 +198,7 @@
                     // The object pulled from S3 will be in the format of "application/octet-stream", which is essentially
                     // a binary array (in the 'Body' property).  Convert the binary array of data to a string, and then parse
                     // the string to a JSON object.
-                    var jsonString = ab2str(data.Body);
+                    var jsonString = String.fromCharCode.apply(null, new Uint16Array(data.Body)); 
                     var object = JSON.parse(jsonString);
                     $scope.Data.Stations = object.Stations;
                     $scope.Data.Packages = object.Packages;
