@@ -23,15 +23,19 @@
         // var revertToLogin = null;
 
         $scope.onUsernameClick = function () {
-            $scope.Username = '';           
+            $scope.Username = '';
             $window.location.replace('/#/login');
+        };
+
+        $scope.onSmiley = function () {
+            $window.open('http://rathergood.com/punk_kittens/', '_blank');
         };
 
         $scope.$on('user-login', function (event, data) {
             $scope.Username = data;
         });
 
-       
+
         // $rootScope.$on('$locationChangeStart', function (event, next, current) {
 
         //     // If no activity in 30 seconds, then return to login page
@@ -103,7 +107,7 @@
             };
             toastr.success(message, header, options);
         }
-      
+
         // Controller initialization
         (function init() {
 
@@ -111,7 +115,7 @@
 
             // Build the copyright information, using the current year i.e. '1976 - now'
             $scope.Copyright = now.getFullYear() + ' Samtec, Inc.';
-         
+
         })();
     }
 })();

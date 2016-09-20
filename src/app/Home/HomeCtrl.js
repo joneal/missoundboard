@@ -13,13 +13,15 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$window', '$timeout', 'cache', '$uibModal', 'HomeService', 'UtilService', 'ENV'];
+    HomeController.$inject = ['$scope', '$window', '$timeout', '$document', 'cache', '$uibModal', 'UtilService', 'ENV'];
 
-    function HomeController($scope, $window, $timeout, cache, $uibModal, HomeService, UtilService, ENV) {
+    function HomeController($scope, $window, $timeout, $document, cache, $uibModal, UtilService, ENV) {
 
         var HEADER_ROW_HEIGHT = 40;
         var ROW_HEIGHT = 40;
         var PANEL_HEIGHT = 200;
+
+        var s3 = null;
 
         $scope.Data = {};
         $scope.ActiveTab = 0;
@@ -64,25 +66,25 @@
             $scope.GridOptions.api.setRowData($scope.Data.Stations);
         };
 
-        $scope.onComponentsView = function () {
+        $scope.onPackagesView = function () {
             $scope.ActiveTab = 1;
             $scope.GridOptions.api.setColumnDefs([
                 {
-                    field: 'Package', headerName: 'Package', width: 100,
-                    template: '<span><a href="" ng-click="onPackageClick(data)"; ng-bind="data.Package"></a></span>'
+                    field: 'Name', headerName: 'Package', width: 100,
+                    template: '<span><a href="" ng-click="onPackageClick(data)"; ng-bind="data.Name"></a></span>'
                 },
                 { field: 'Build', headerName: 'Build', width: 75 },
                 { field: 'ReleaseDate', headerName: 'Release Date', width: 75, cellRenderer: dateRenderer },
                 {
                     field: 'Description', headerName: 'Description',
-                    template: '<span ng-bind="data.Description"></span><a href="" ng-click="onPackageDescriptionClick(data)";>&nbsp;...</a>'
+                    template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-click="onPackageDescriptionClick(data)";><i class="fa fa-info-circle"></i></a>'
                 }
             ]);
-            $scope.GridOptions.api.setRowData($scope.Data.Components);
+            $scope.GridOptions.api.setRowData($scope.Data.Packages);
         };
 
         function dateRenderer(params) {
-            return moment(params.value).format('llll');
+            return moment(params.data.ReleaseDate).format('ll');
         }
 
         $scope.onPackageClick = function (data) {
@@ -93,32 +95,20 @@
                 size: 'md',
                 resolve: {
                     title: function () {
-                        return 'Download';
+                        return 'Download?';
                     },
                     content: function () {
-                        return 'Do you wish to download package - ' + data.Package.toUpperCase() + '?';
+                        return 'Do you wish to download package - ' + data.Name.toUpperCase() + '?';
                     }
                 }
             }).result.then(function yes() {
-                // Download from AWS S3 via service?
-                AWS.config.update({ accessKeyId: ENV.AWS_ACCESS_KEY_ID, secretAccessKey: ENV.AWS_SECRET_ACCESS_KEY });
-                AWS.config.region = 'us-east-1';
-
-                var bucket = new AWS.S3({ params: { Bucket: 'anduin-installers' } });
-                // bucket.listObjects(function(err,data){
-                //     if(err){
-                //         console.log(err);
-                //     } else {
-                //         console.log(data);
-                //     }
-                // });
-                var fileName = 'dotNetFx40_Full_x86_x64.exe';
-                var filePath = 'packages/' + fileName;
-                bucket.getObject({ Key: filePath }, function (err, data) {
+                var fileName = data.Filename;
+                var filePath = data.FilePath + '/' + fileName;
+                s3.getObject({ Bucket: 'anduin-installers', Key: filePath }, function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
-                        saveAs(new Blob([data.Body], {type: 'application/octet-stream'}), fileName);
+                        saveAs(new Blob([data.Body], { type: 'application/octet-stream' }), fileName);
                     }
                 });
             }, function no() { });
@@ -126,12 +116,9 @@
 
         $scope.onPackageDescriptionClick = function (data) {
             // Link to release notes, or download?
+            $window.open(data.ReleaseNotesLink, '_blank');
         };
 
-        $scope.onDontClick = function () {
-            $window.open('http://rathergood.com/punk_kittens/', '_blank');
-        };
-       
         function FullWidthCellRenderer() { }
 
         FullWidthCellRenderer.prototype.init = function (params) {
@@ -176,26 +163,36 @@
             eFullWidthCenter.addEventListener('DOMMouseScroll', mouseWheelListener);
         };
 
+        // Convert an array buffer to a string
+        function ab2str(buf) {
+            return String.fromCharCode.apply(null, new Uint16Array(buf));
+        }
 
         //----------------------------------------------------------------------------------------------------
         // Controller initialization
         //----------------------------------------------------------------------------------------------------
         (function init() {
 
-            HomeService.GetStationData().then(function (data) {
-                $scope.Data.Stations = data;
-                $scope.onStationsView();
-            }).catch(function (err) {
-                UtilService.Error('Error getting station data');
-            });
+            // Download from AWS S3 via service?
+            AWS.config.update({ accessKeyId: ENV.AWS_ACCESS_KEY_ID, secretAccessKey: ENV.AWS_SECRET_ACCESS_KEY });
+            AWS.config.region = 'us-east-1';
 
-            HomeService.GetComponentData().then(function (data) {
-                $scope.Data.Components = data;
-                $scope.onStationsView();
-            }).catch(function (err) {
-                UtilService.Error('Error getting components data');
-            });
+            s3 = new AWS.S3();
 
+            s3.getObject({ Bucket: 'anduin-installers', Key: 'manifest.json' }, function (err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    // The object pulled from S3 will be in the format of "application/octet-stream", which is essentially
+                    // a binary array (in the 'Body' property).  Convert the binary array of data to a string, and then parse
+                    // the string to a JSON object.
+                    var jsonString = ab2str(data.Body);
+                    var object = JSON.parse(jsonString);
+                    $scope.Data.Stations = data.Stations;
+                    $scope.Data.Packages = object.Packages;
+                    $scope.onStationsView();
+                }
+            });
         })();
     }
 })();
