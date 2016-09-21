@@ -26,7 +26,7 @@
         $scope.Data = {};
         $scope.ActiveTab = 0;
 
-        $scope.ChildData = {};
+        //$scope.ChildData = {};
 
         $scope.GridOptions = {
             angularCompileRows: true,
@@ -50,6 +50,7 @@
             }
         };
 
+        // Called when the user clicks on the 'Stations' tab
         $scope.onStationsView = function () {
             $scope.ActiveTab = 0;
             $scope.GridOptions.api.setColumnDefs([
@@ -67,6 +68,7 @@
             $scope.GridOptions.api.setRowData($scope.Data.Stations);
         };
 
+        // Called when the user clicks on the 'Packages' tab
         $scope.onPackagesView = function () {
             $scope.ActiveTab = 1;
             $scope.GridOptions.api.setColumnDefs([
@@ -84,14 +86,17 @@
             $scope.GridOptions.api.setRowData($scope.Data.Packages);
         };
 
+        // Add some space between the contract/expand icon and the station name
         function stationRenderer(params) {
             return '&nbsp;<span>' + params.data.Name + '</span>';
         }
 
+        // Show any dates in local 'MMM d, yyyy' format
         function dateRenderer(params) {
             return moment(params.data.ReleaseDate).format('ll');
         }
 
+        // Called when the user clicks on the 'Package' name i.e. the link
         $scope.onPackageClick = function (data) {
             $uibModal.open({
                 templateUrl: 'Notification/YesNoNotification.html',
@@ -119,11 +124,14 @@
             }, function no() { });
         };
 
+        // Called when the user clicks on the 'Description' information icon
         $scope.onDescriptionClick = function (data) {
             // Link to release notes, or download?
             $window.open(data.ReleaseNotesLink, '_blank');
         };
 
+        // FullWidthCellRenderer is used to create/display the child panel that is display below a row
+        // when the user clicks on the contract/expand icon by the Station name, to expand the child panel.
         function FullWidthCellRenderer() { }
 
         FullWidthCellRenderer.prototype.init = function (params) {
@@ -137,12 +145,12 @@
 
         FullWidthCellRenderer.prototype.getTemplate = function (params) {
             // The flower row shares the same data as the parent row
-            $scope.ChildData.Packages = params.node.data.Packages;
+            //$scope.ChildData.Station = params.node.data;
 
-            _.forEach($scope.ChildData.Packages, function(p){
-                p.ReleaseDate = new Date(p.ReleaseDate);
-            });
-            
+            // _.forEach($scope.ChildData.Station.Packages, function(p){
+            //     p.ReleaseDate = new Date(p.ReleaseDate);
+            // });
+  
             return $templateCache.get('Home/ChildPanel.html');          
         };
 
@@ -177,6 +185,7 @@
 
             s3 = new AWS.S3();
 
+            // Download the 'manifest.json' file from S3. It will be used to drive both the 'Stations' and 'Packages' grids.
             s3.getObject({ Bucket: 'anduin-installers', Key: 'manifest.json' }, function (err, data) {
                 if (err) {
                     console.log(err);
