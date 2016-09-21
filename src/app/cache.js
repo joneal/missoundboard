@@ -13,17 +13,23 @@
         .module('Samtec.Anduin.Installer.Web')
         .factory('cache', cache);
 
-    cache.$inject = ['$q'];
+    cache.$inject = ['$q', 'ENV'];
 
-    function cache($q) {
+    function cache($q, ENV) {
 
         var app = 'etestinv';
-        var secret = '01011976';       
+        var secret = '01011976';
         var username = '';
         var displayName = '';
         var roles = [];
         var token = '';
-       
+
+        // Download from AWS S3 via service?
+        AWS.config.update({ accessKeyId: ENV.AWS_ACCESS_KEY_ID, secretAccessKey: ENV.AWS_SECRET_ACCESS_KEY });
+        AWS.config.region = 'us-east-1';
+
+        var s3 = new AWS.S3();
+
         return {
 
             NotifyMessageTypes: {
@@ -33,11 +39,12 @@
             },
 
             App: app,
-            Secret: secret,           
+            Secret: secret,
             Username: username,
             Displayname: displayName,
             Roles: roles,
-            Token: token
+            Token: token,
+            S3: s3
         };
     }
 

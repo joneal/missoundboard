@@ -1,0 +1,34 @@
+<section class="l-modal">
+    <div class="l-modal-heading">
+        <h1>{{Station.Name}}</h1>
+    </div>
+    <div class="l-modal-body">
+        <div class="row grow">
+            <div class="col-sm-7 grow">
+                <div class="child-panel-grid">
+                    <div class="row child-panel-grid-header">
+                        <div class="col-sm-3">Package</div>
+                        <div class="col-sm-2">Build</div>
+                        <div class="col-sm-2">Release Date</div>
+                        <div class="col-sm-5">Description</div>
+                    </div>               
+                    <div class="row" ng-repeat="p in Station.Packages">
+                        <div class="col-sm-3"><a href="" ng-click="onPackageClick(p)">{{p.Name}}</a></div>
+                        <div class="col-sm-2">{{p.Build}}</div>
+                        <div class="col-sm-2">{{p.ReleaseDate | date}}</div>
+                        <div class="col-sm-5">
+                            {{p.Description}}&nbsp;
+                            <a href="" ng-if="p.ReleaseNotesLink" ng-click="onDescriptionClick(p);"><i class="fa fa-info-circle"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+    </div>
+    <div class="l-modal-footer">
+        <div class="buttons">
+            <button samtec-focus="true" class="primary" ng-click="onOK();" ng-keypress="($event.which === 13)?onOK():0">OK</button>
+        </div>
+    </div>
+</section>
