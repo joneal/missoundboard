@@ -10,6 +10,14 @@
             "FilePath": "stations",
             "Packages": [
                 {
+                    "Name": "National Instruments",
+                    "Build": "4882"
+                },
+                {
+                    "Name": "Total Phase Aardvark",
+                    "Build": "2.12"
+                },
+                {
                     "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
@@ -32,6 +40,14 @@
             "Filename": "",
             "FilePath": "stations",
             "Packages": [
+                {
+                    "Name": "National Instruments",
+                    "Build": "4882"
+                },
+                {
+                    "Name": "Total Phase Aardvark",
+                    "Build": "2.12"
+                },
                 {
                     "Name": "Anduin",
                     "Build": "2015.05.11.0945"
@@ -56,6 +72,14 @@
             "FilePath": "stations",
             "Packages": [
                 {
+                    "Name": "National Instruments",
+                    "Build": "4882"
+                },
+                {
+                    "Name": "Total Phase Aardvark",
+                    "Build": "2.12"
+                },
+                {
                     "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
@@ -75,6 +99,14 @@
             "FilePath": "stations",
             "Packages": [
                 {
+                    "Name": "National Instruments",
+                    "Build": "4882"
+                },
+                {
+                    "Name": "Total Phase Aardvark",
+                    "Build": "2.12"
+                },
+                {
                     "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
@@ -93,6 +125,14 @@
             "Filename": "",
             "FilePath": "stations",
             "Packages": [
+                {
+                    "Name": "National Instruments",
+                    "Build": "4882"
+                },
+                {
+                    "Name": "Total Phase Aardvark",
+                    "Build": "2.12"
+                },
                 {
                     "Name": "Anduin",
                     "Build": "2015.05.11.0945"
@@ -117,6 +157,14 @@
             "FilePath": "stations",
             "Packages": [
                 {
+                    "Name": "National Instruments",
+                    "Build": "4882"
+                },
+                {
+                    "Name": "Total Phase Aardvark",
+                    "Build": "2.12"
+                },
+                {
                     "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
@@ -128,6 +176,24 @@
         }
     ],
     "Packages": [
+        {
+            "Name": "National Instruments",
+            "Build": "4882",
+            "ReleaseDate": "01/01/2001",
+            "Description": "",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Total Phase Aardvark",
+            "Build": "2.12",
+            "ReleaseDate": "01/01/2001",
+            "Description": "",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "packages"
+        },
         {
             "Name": ".NET Framework 4.0",
             "Build": "4.0.30319.17000",
@@ -175,12 +241,12 @@
         },
         {
             "Name": "Optokon",
-            "Build": "1.1.1",
-            "ReleaseDate": "01/01/2001",
+            "Build": "20814",
+            "ReleaseDate": "03/29/2012",
             "Description": "Optokon installer",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "packages"
+            "FilePath": "packages/optokon"
         },
         {
             "Name": "Picotech Data Logger",

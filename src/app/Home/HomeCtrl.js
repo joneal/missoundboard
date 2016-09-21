@@ -43,7 +43,7 @@
             $scope.ActiveTab = 0;
             $scope.GridOptions.api.setColumnDefs([
                 {
-                    field: 'Name', headerName: 'Station', width: 100,
+                    field: 'Name', headerName: 'Station', width: 100, sort: 'asc',
                     template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Name"></a></span>'
                 },
                 { field: 'Build', headerName: 'Build', width: 75, suppressSorting: true },
@@ -61,7 +61,7 @@
             $scope.ActiveTab = 1;
             $scope.GridOptions.api.setColumnDefs([
                 {
-                    field: 'Name', headerName: 'Package', width: 100,
+                    field: 'Name', headerName: 'Package', width: 100, sort: 'asc',
                     template: '<span><a href="" ng-click="onPackageClick(data)"; ng-bind="data.Name"></a></span>'
                 },
                 { field: 'Build', headerName: 'Build', width: 75, suppressSorting: true },
