@@ -21,6 +21,7 @@
         var ROW_HEIGHT = 40;
 
         var s3 = null;
+        var awsRequest = null;
 
         $scope.Data = {};
         $scope.ActiveTab = 0;
@@ -92,7 +93,7 @@
                     }
                 }
             }).result.then(function ok() {
-               
+
             });
         };
 
@@ -114,12 +115,14 @@
             }).result.then(function yes() {
                 var fileName = data.Filename;
                 var filePath = data.FilePath + '/' + fileName;
-                s3.getObject({ Bucket: 'anduin-installers', Key: filePath }, function (err, data) {
+                cache.S3.getObject({ Bucket: 'anduin-installers', Key: filePath }, function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
                         saveAs(new Blob([data.Body], { type: 'application/octet-stream' }), fileName);
                     }
+                }).on('httpDownloadProgress', function (progress) {
+                    console.log(progress);
                 });
             }, function no() { });
         };

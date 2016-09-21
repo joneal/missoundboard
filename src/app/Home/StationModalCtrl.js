@@ -43,6 +43,8 @@
                     } else {
                         saveAs(new Blob([data.Body], { type: 'application/octet-stream' }), fileName);
                     }
+                }).on('httpDownloadProgress', function (progress) {
+                    console.log(progress);
                 });
             }, function no() { });
         };
