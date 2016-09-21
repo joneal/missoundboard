@@ -128,7 +128,6 @@
                         saveAs(new Blob([data.Body], { type: 'application/octet-stream' }), fileName);
                     }
                 }).on('httpDownloadProgress', function (progress) {
-                    console.log(progress);
                     $timeout(function () {
                         pkg.Download.Progress = Math.floor((progress.loaded / progress.total) * 100.0);
                     });

@@ -13,13 +13,13 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('StationModalController', StationModalController);
 
-    StationModalController.$inject = ['$scope', '$uibModal', '$uibModalInstance', '$window', 'cache', 'ENV', 'station'];
+    StationModalController.$inject = ['$scope', '$uibModal', '$uibModalInstance', '$window', '$timeout', 'cache', 'ENV', 'station'];
 
-    function StationModalController($scope, $uibModal, $uibModalInstance, $window, cache, ENV, station) {
+    function StationModalController($scope, $uibModal, $uibModalInstance, $window, $timeout, cache, ENV, station) {
 
         $scope.Station = station;
 
-        $scope.onPackageClick = function (data) {
+        $scope.onPackageClick = function (pkg) {
             $uibModal.open({
                 templateUrl: 'Notification/YesNoNotification.html',
                 controller: 'YesNoNotificationController',
@@ -30,21 +30,27 @@
                         return 'Download?';
                     },
                     content: function () {
-                        return 'Do you wish to download package - ' + data.Name.toUpperCase() + '?';
+                        return 'Do you wish to download package - ' + pkg.Name.toUpperCase() + '?';
                     }
                 }
             }).result.then(function yes() {
-
-                var fileName = data.Filename;
-                var filePath = data.FilePath + '/' + fileName;
+                pkg.Download.Active = true;
+                var fileName = pkg.Filename;
+                var filePath = pkg.FilePath + '/' + fileName;
                 cache.S3.getObject({ Bucket: 'anduin-installers', Key: filePath }, function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
+                        $timeout(function () {
+                            pkg.Download.Active = false;
+                            pkg.Download.Progress = 0;
+                        });
                         saveAs(new Blob([data.Body], { type: 'application/octet-stream' }), fileName);
                     }
                 }).on('httpDownloadProgress', function (progress) {
-                    console.log(progress);
+                    $timeout(function () {
+                        pkg.Download.Progress = Math.floor((progress.loaded / progress.total) * 100.0);
+                    });
                 });
             }, function no() { });
         };
