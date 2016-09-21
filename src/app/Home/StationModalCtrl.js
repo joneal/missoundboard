@@ -68,6 +68,10 @@
         // Controller initialization
         //----------------------------------------------------------------------------------------------------
         (function init() {
+
+            // Sort the packages
+            $scope.Station.Packages = _.sortBy($scope.Station.Packages, ['Name']);
+
         })();
     }
 })();
