@@ -34,7 +34,7 @@
                     }
                 }
             }).result.then(function yes() {
-               
+
                 var fileName = data.Filename;
                 var filePath = data.FilePath + '/' + fileName;
                 cache.S3.getObject({ Bucket: 'anduin-installers', Key: filePath }, function (err, data) {
@@ -50,6 +50,14 @@
         $scope.onDescriptionClick = function (data) {
             // Link to release notes, or download?
             $window.open(data.ReleaseNotesLink, '_blank');
+        };
+
+        $scope.onStationPackages = function () {
+
+        };
+
+        $scope.onEditConfig = function () {
+
         };
 
         $scope.onOK = function () {

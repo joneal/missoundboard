@@ -11,7 +11,7 @@
                         <div class="col-sm-2">Build</div>
                         <div class="col-sm-2">Release Date</div>
                         <div class="col-sm-5">Description</div>
-                    </div>               
+                    </div>
                     <div class="row" ng-repeat="p in Station.Packages">
                         <div class="col-sm-3"><a href="" ng-click="onPackageClick(p)">{{p.Name}}</a></div>
                         <div class="col-sm-2">{{p.Build}}</div>
@@ -23,7 +23,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-5"></div>
+            <div class="col-sm-5 grow">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button class="primary" ng-click="onStationPackages();">Download Station Packages</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="primary" ng-click="onEditConfig();">Configure Station</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="l-modal-footer">

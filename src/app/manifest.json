@@ -10,44 +10,16 @@
             "FilePath": "stations",
             "Packages": [
                 {
-                    "Name": "Anduin 2015.05.11.0945",
+                    "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
                 {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
+                    "Name": "Optokon",
+                    "Build": "1.1.1"
                 },
                 {
-                    "Name": "Anduin 2015.05.11.0945",
-                    "Build": "2015.05.11.0945"
-                },
-                {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
-                },
-                {
-                    "Name": "Anduin 2015.05.11.0945",
-                    "Build": "2015.05.11.0945"
-                },
-                {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
-                },
-                {
-                    "Name": "Anduin 2015.05.11.0945",
-                    "Build": "2015.05.11.0945"
-                },
-                {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
-                },
-                {
-                    "Name": "Anduin 2015.05.11.0945",
-                    "Build": "2015.05.11.0945"
-                },
-                {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
+                    "Name": "Picotech Data Logger",
+                    "Build": "1.1.1"
                 }
             ]
         },
@@ -61,12 +33,16 @@
             "FilePath": "stations",
             "Packages": [
                 {
-                    "Name": "Anduin 2015.05.11.0945",
+                    "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
                 {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
+                    "Name": "Optokon",
+                    "Build": "1.1.1"
+                },
+                {
+                    "Name": "Picotech Data Logger",
+                    "Build": "1.1.1"
                 }
             ]
         },
@@ -80,12 +56,12 @@
             "FilePath": "stations",
             "Packages": [
                 {
-                    "Name": "Anduin 2015.05.11.0945",
+                    "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
                 {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
+                    "Name": "Atmel Studio",
+                    "Build": "1.1.1"
                 }
             ]
         },
@@ -99,12 +75,12 @@
             "FilePath": "stations",
             "Packages": [
                 {
-                    "Name": "Anduin 2015.05.11.0945",
+                    "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
                 {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
+                    "Name": "Optokon",
+                    "Build": "1.1.1"
                 }
             ]
         },
@@ -118,12 +94,16 @@
             "FilePath": "stations",
             "Packages": [
                 {
-                    "Name": "Anduin 2015.05.11.0945",
+                    "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
                 {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
+                    "Name": "National Instruments DAQ",
+                    "Build": "1.1.1"
+                },
+                {
+                    "Name": "Thorlabs Data Logger",
+                    "Build": "1.1.1"
                 }
             ]
         },
@@ -137,12 +117,12 @@
             "FilePath": "stations",
             "Packages": [
                 {
-                    "Name": "Anduin 2015.05.11.0945",
+                    "Name": "Anduin",
                     "Build": "2015.05.11.0945"
                 },
                 {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
+                    "Name": "Pokemon Go",
+                    "Build": "1.1.1"
                 }
             ]
         }
@@ -167,7 +147,7 @@
             "FilePath": "packages"
         },
         {
-            "Name": "Anduin 2015.05.11.0945",
+            "Name": "Anduin",
             "Build": "2015.05.11.0945",
             "ReleaseDate": "05/11/2015",
             "Description": "Anduin installer supporting some stuff",
@@ -176,7 +156,7 @@
             "FilePath": "packages"
         },
         {
-            "Name": "Anduin 2015.12.23.1313",
+            "Name": "Anduin",
             "Build": "2015.12.23.1313",
             "ReleaseDate": "12/13/2015",
             "Description": "Anduin installer with festive Christmas icons",
@@ -185,12 +165,66 @@
             "FilePath": "packages"
         },
         {
-            "Name": "Anduin 2016.08.15.1123",
+            "Name": "Anduin",
             "Build": "2016.08.15.1123",
             "ReleaseDate": "08/15/2016",
             "Description": "Anduin installer supporting MongoDB for measurements",
             "ReleaseNotesLink": "",
             "Filename": "Anduin_201608151123.exe",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Optokon",
+            "Build": "1.1.1",
+            "ReleaseDate": "01/01/2001",
+            "Description": "Optokon installer",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Picotech Data Logger",
+            "Build": "1.1.1",
+            "ReleaseDate": "01/01/2001",
+            "Description": "Picotech Data Logger installer",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Atmel Studio",
+            "Build": "1.1.1",
+            "ReleaseDate": "01/01/2001",
+            "Description": "Atmel Studio installer",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "National Instruments DAQ",
+            "Build": "1.1.1",
+            "ReleaseDate": "01/01/2001",
+            "Description": "National Instruments DAQ installer",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Thorlabs Data Logger",
+            "Build": "1.1.1",
+            "ReleaseDate": "01/01/2001",
+            "Description": "Thorlabs Data Logger installer",
+            "ReleaseNotesLink": "",
+            "Filename": "",
+            "FilePath": "packages"
+        },
+        {
+            "Name": "Pokemon Go",
+            "Build": "1.1.1",
+            "ReleaseDate": "01/01/2001",
+            "Description": "Pokemon Go installer",
+            "ReleaseNotesLink": "",
+            "Filename": "",
             "FilePath": "packages"
         }
     ]
