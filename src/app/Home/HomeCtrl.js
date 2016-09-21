@@ -20,9 +20,6 @@
         var HEADER_ROW_HEIGHT = 40;
         var ROW_HEIGHT = 40;
 
-        var s3 = null;
-        var awsRequest = null;
-
         $scope.Data = {};
         $scope.ActiveTab = 0;
 
@@ -47,7 +44,7 @@
                     field: 'Name', headerName: 'Station', width: 100, sort: 'asc',
                     template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Name"></a></span>'
                 },
-                { field: 'Build', headerName: 'Build', width: 75, suppressSorting: true },
+                { field: 'Build', headerName: 'Build', width: 50, suppressSorting: true },
                 { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
                 {
                     field: 'Description', headerName: 'Description', suppressSorting: true,
@@ -65,11 +62,15 @@
                     field: 'Name', headerName: 'Package', width: 100, sort: 'asc',
                     template: '<span><a href="" ng-click="onPackageClick(data)"; ng-bind="data.Name"></a></span>'
                 },
-                { field: 'Build', headerName: 'Build', width: 75, suppressSorting: true },
+                { field: 'Build', headerName: 'Build', width: 50, suppressSorting: true },
                 { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
                 {
                     field: 'Description', headerName: 'Description', suppressSorting: true,
                     template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-if="data.ReleaseNotesLink" ng-click="onDescriptionClick(data);"><i class="fa fa-info-circle"></i></a>'
+                },
+                {
+                    field: 'Progress', headerName: 'Progress', width: 50, suppressSorting: true,
+                    template: '<uib-progressbar ng-if="data.Download.Active" style="width:90%" animate="false" value="data.Download.Progress"><b>{{data.Download.Progress}}%</b></uib-progressbar>'
                 }
             ]);
             $scope.GridOptions.api.setRowData($scope.Data.Packages);
@@ -98,7 +99,7 @@
         };
 
         // Called when the user clicks on the 'Package' name i.e. the link
-        $scope.onPackageClick = function (data) {
+        $scope.onPackageClick = function (pkg) {
             $uibModal.open({
                 templateUrl: 'Notification/YesNoNotification.html',
                 controller: 'YesNoNotificationController',
@@ -109,20 +110,28 @@
                         return 'Download?';
                     },
                     content: function () {
-                        return 'Do you wish to download package - ' + data.Name.toUpperCase() + '?';
+                        return 'Do you wish to download package - ' + pkg.Name.toUpperCase() + '?';
                     }
                 }
             }).result.then(function yes() {
-                var fileName = data.Filename;
-                var filePath = data.FilePath + '/' + fileName;
+                pkg.Download.Active = true;
+                var fileName = pkg.Filename;
+                var filePath = pkg.FilePath + '/' + fileName;
                 cache.S3.getObject({ Bucket: 'anduin-installers', Key: filePath }, function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
+                        $timeout(function () {
+                            pkg.Download.Active = false;
+                            pkg.Download.Progress = 0;
+                        });
                         saveAs(new Blob([data.Body], { type: 'application/octet-stream' }), fileName);
                     }
                 }).on('httpDownloadProgress', function (progress) {
                     console.log(progress);
+                    $timeout(function () {
+                        pkg.Download.Progress = Math.floor((progress.loaded / progress.total) * 100.0);
+                    });
                 });
             }, function no() { });
         };
@@ -151,6 +160,11 @@
                     $scope.Data.Stations = object.Stations;
                     $scope.Data.Packages = object.Packages;
 
+                    // Fixup the Packages to support downloading progress
+                    _.forEach($scope.Data.Packages, function (p) {
+                        p.Download = { Active: false, Progress: 0, Error: false };
+                    });
+
                     // Fixup Packages list in each Station.  Only the 'Name' and 'Build' properties are 
                     // set in the Packages list of each Station.  So loop thru the general Packages list and find 
                     // a match based on 'Name' and 'Build'.  Once found, create new properties in the Station Package for 
@@ -164,6 +178,7 @@
                                 stationPackage.ReleaseNotesLink = p.ReleaseNotesLink;
                                 stationPackage.Filename = p.Filename;
                                 stationPackage.FilePath = p.FilePath;
+                                stationPackage.Download = p.Download;
                             }
                         });
                     });
