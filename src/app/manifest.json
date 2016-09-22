@@ -8,11 +8,7 @@
             "ReleaseNotesLink": "",
             "Filename": "",
             "FilePath": "stations",
-            "Packages": [
-                {
-                    "Name": ".NET Framework 4.5.2",
-                    "Build": "4.0.30319.34000"
-                },
+            "Packages": [               
                 {
                     "Name": "National Instruments",
                     "Build": "4882"
@@ -186,7 +182,7 @@
             "ReleaseDate": "01/01/2001",
             "Description": "",
             "ReleaseNotesLink": "",
-            "Filename": "",
+            "Filename": "NI4882_1500f0.exe",
             "FilePath": "packages"
         },
         {
@@ -195,7 +191,7 @@
             "ReleaseDate": "01/01/2001",
             "Description": "",
             "ReleaseNotesLink": "",
-            "Filename": "",
+            "Filename": "TotalPhaseUSB-v2.12.exe",
             "FilePath": "packages"
         },
         {
@@ -276,8 +272,8 @@
             "ReleaseDate": "01/01/2001",
             "Description": "National Instruments DAQ installer",
             "ReleaseNotesLink": "",
-            "Filename": "",
-            "FilePath": "packages"
+            "Filename": "NIDAQ960f0.exe",
+            "FilePath": "packages/national_instruments"
         },
         {
             "Name": "Thorlabs Data Logger",
