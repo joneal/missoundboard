@@ -177,6 +177,15 @@
     ],
     "Packages": [
         {
+            "Name": "Google Chrome",
+            "Build": "53.0.2785.116 m",
+            "ReleaseDate": "09/14/2016",
+            "Description": "Google Chrome browser...because IE sucks",
+            "ReleaseNotesLink": "https://en.wikipedia.org/wiki/Google_Chrome_version_history",
+            "Filename": "ChromeStandaloneSetup64.exe",
+            "FilePath": "packages"
+        },
+        {
             "Name": "National Instruments",
             "Build": "4882",
             "ReleaseDate": "01/01/2001",
