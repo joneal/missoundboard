@@ -78,7 +78,7 @@
 
         // Show any dates in local 'MMM d, yyyy' format
         function dateRenderer(params) {
-            return moment(params.data.ReleaseDate).format('ll');
+            return moment(new Date(params.data.ReleaseDate)).format('ll');
         }
 
         // Called when the user clicks on the 'Station' name i.e. the link
