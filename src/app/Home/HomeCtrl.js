@@ -67,11 +67,11 @@
                 {
                     field: 'Description', headerName: 'Description', suppressSorting: true,
                     template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-if="data.ReleaseNotesLink" ng-click="onDescriptionClick(data);"><i class="fa fa-info-circle"></i></a>'
-                },
-                {
-                    field: 'Progress', headerName: 'Progress', width: 50, suppressSorting: true,
-                    template: '<uib-progressbar ng-if="data.Download.Active" style="width:90%" animate="false" value="data.Download.Progress"><b>{{data.Download.Progress}}%</b></uib-progressbar>'
-                }
+                }//,
+                // {
+                //     field: 'Progress', headerName: 'Progress', width: 50, suppressSorting: true,
+                //     template: '<uib-progressbar ng-if="data.Download.Active" style="width:90%" animate="false" value="data.Download.Progress"><b>{{data.Download.Progress}}%</b></uib-progressbar>'
+                // }
             ]);
             $scope.GridOptions.api.setRowData($scope.Data.Packages);
         };
@@ -114,68 +114,17 @@
                     }
                 }
             }).result.then(function yes() {
-                pkg.Download.Active = true;
+
                 var fileName = pkg.Filename;
                 var filePath = pkg.FilePath + '/' + fileName;
+                var downloadPath = cache.ANDUIN_INSTALLER_URL + '/' + filePath;
 
-                cache.S3.getObject({ Bucket: 'anduin-installers', Key: filePath })
-                    .on('httpHeaders', function (statusCode, headers, response) {
-                        // stream = this.response.httpResponse.createUnbufferedStream();
-                        // $scope.pump(stream);
-                        // stream.on('receiveProgress', function (progress) {
-                        //     $timeout(function () {
-                        //         pkg.Download.Progress = Math.floor((progress.loaded / progress.total) * 100.0);
-                        //     });
-                        // }).on('end', function () {
-                        //     $timeout(function () {
-                        //         pkg.Download.Active = false;
-                        //         pkg.Download.Progress = 0;
-                        //     });
-                        // });
-                    })
-                    .on('httpDownloadProgress', function (progress) {
-                        $timeout(function () {
-                            pkg.Download.Progress = Math.floor((progress.loaded / progress.total) * 100.0);
-                        });
-                    })
-                    .on('httpData', function (chunk, response) {
-                        //saveAs(new Blob([chunk], { type: 'application/octet-stream' }), fileName);
-                        console.log('Got chunk : ' + chunk.length);
-                    })
-                    .on('complete', function (response) {
-                        $timeout(function () {
-                            pkg.Download.Active = false;
-                            pkg.Download.Progress = 0;
-                        });                        
-                    })
-                    .send();
+                $window.open(downloadPath, '_self');
 
             }, function no() { });
         };
 
-        // if (err) {
-        //     console.log(err);
-        // } else {
-        //     $timeout(function () {
-        //         pkg.Download.Active = false;
-        //         pkg.Download.Progress = 0;
-        //     });
-        //     saveAs(new Blob([data.Body], { type: 'application/octet-stream' }), fileName);
-        // }
-
-        // var myFile = null;
-
-        // $scope.pump = function (reader) {
-        //     return reader.read().then(function (result) {
-        //         if (result.done) {
-        //             myFile.close();
-        //             return;
-        //         }
-        //         myFile.write(result.value);
-        //         return $scope.pump(reader);
-        //     });
-        // };
-
+     
         // Called when the user clicks on the 'Description' information icon
         $scope.onDescriptionClick = function (data) {
             // Link to release notes, or download?
@@ -201,9 +150,9 @@
                     $scope.Data.Packages = object.Packages;
 
                     // Fixup the Packages to support downloading progress
-                    _.forEach($scope.Data.Packages, function (p) {
-                        p.Download = { Active: false, Progress: 0, Error: false };
-                    });
+                    // _.forEach($scope.Data.Packages, function (p) {
+                    //     p.Download = { Active: false, Progress: 0, Error: false };
+                    // });
 
                     // Fixup Packages list in each Station.  Only the 'Name' and 'Build' properties are 
                     // set in the Packages list of each Station.  So loop thru the general Packages list and find 
@@ -218,7 +167,7 @@
                                 stationPackage.ReleaseNotesLink = p.ReleaseNotesLink;
                                 stationPackage.Filename = p.Filename;
                                 stationPackage.FilePath = p.FilePath;
-                                stationPackage.Download = p.Download;
+                                // stationPackage.Download = p.Download;
                             }
                         });
                     });
@@ -228,17 +177,9 @@
                 }
             });
 
-            $window.requestFileSystem = $window.requestFileSystem || $window.webkitRequestFileSystem;
-            $window.requestFileSystem($window.PERSISTENT, 600 * 1024 * 1024, initFS, errorHandler);
-
-            function initFS(fs){
-                console.log('Success');
-            }
-
-            function errorHandler(){
-                console.log('An error occurred');
-            }
-
         })();
     }
 })();
+
+
+

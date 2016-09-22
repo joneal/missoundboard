@@ -16,10 +16,7 @@
                         <div class="col-sm-3">
                             <div>
                                 <a href="" ng-click="onPackageClick(p)">{{p.Name}}</a>
-                            </div>
-                            <div>
-                                <uib-progressbar ng-if="p.Download.Active" style="width:90%" animate="false" value="p.Download.Progress"><b>{{p.Download.Progress}}%</b></uib-progressbar>
-                            </div>
+                            </div>                            
                         </div>
                         <div class="col-sm-2">{{p.Build}}</div>
                         <div class="col-sm-2">{{p.ReleaseDate | date}}</div>

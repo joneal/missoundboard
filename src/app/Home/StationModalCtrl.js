@@ -34,24 +34,14 @@
                     }
                 }
             }).result.then(function yes() {
-                pkg.Download.Active = true;
+
                 var fileName = pkg.Filename;
                 var filePath = pkg.FilePath + '/' + fileName;
-                cache.S3.getObject({ Bucket: 'anduin-installers', Key: filePath }, function (err, data) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        $timeout(function () {
-                            pkg.Download.Active = false;
-                            pkg.Download.Progress = 0;
-                        });
-                        saveAs(new Blob([data.Body], { type: 'application/octet-stream' }), fileName);
-                    }
-                }).on('httpDownloadProgress', function (progress) {
-                    $timeout(function () {
-                        pkg.Download.Progress = Math.floor((progress.loaded / progress.total) * 100.0);
-                    });
-                });
+
+                var downloadPath = cache.ANDUIN_INSTALLER_URL + '/' + filePath;
+
+                $window.open(downloadPath, '_self');
+
             }, function no() { });
         };
 
@@ -61,6 +51,15 @@
         };
 
         $scope.onStationPackages = function () {
+
+            _.forEach($scope.Station.Packages, function (pkg) {
+                var fileName = pkg.Filename;
+                var filePath = pkg.FilePath + '/' + fileName;
+
+                var downloadPath = cache.ANDUIN_INSTALLER_URL + '/' + filePath;
+
+                $window.open(downloadPath, '_self');
+            });
 
         };
 

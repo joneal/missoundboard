@@ -30,6 +30,8 @@
 
         var s3 = new AWS.S3();
 
+        var anduinInstallerUrl = 'http://anduin-installers.s3-website-us-east-1.amazonaws.com';
+
         return {
 
             NotifyMessageTypes: {
@@ -44,7 +46,8 @@
             Displayname: displayName,
             Roles: roles,
             Token: token,
-            S3: s3
+            S3: s3,
+            ANDUIN_INSTALLER_URL: anduinInstallerUrl
         };
     }
 
