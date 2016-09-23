@@ -172,6 +172,33 @@
         }
     ],
     "Packages": [
+         {
+            "Name": ".NET Framework 4.0",
+            "Build": "4.0.30319.17000",
+            "ReleaseDate": "2/21/2011",
+            "Description": "Full offline installer for the .NET Framework 4.0",
+            "ReleaseNotesLink": "https://msdn.microsoft.com/en-us/library/ms171868(v=VS.100).aspx",
+            "Filename": "dotNetFx40_Full_x86_x64.exe",
+            "FilePath": "packages/dotnetframework"
+        },
+        {
+            "Name": ".NET Framework 4.5.2",
+            "Build": "4.0.30319.34000",
+            "ReleaseDate": "5/5/2014",
+            "Description": "Full offline installer for the .NET Framework 4.5.2",
+            "ReleaseNotesLink": "https://msdn.microsoft.com/en-us/library/ms171868(v=vs.110)#v452",
+            "Filename": "NDP452-KB2901907-x86-x64-AllOS-ENU.exe",
+            "FilePath": "packages/dotnetframework"
+        },
+        {
+            "Name": "Visual Studio Code",
+            "Build": "1.5.3",
+            "ReleaseDate": "08/2016",
+            "Description": "Cross platform code editor",
+            "ReleaseNotesLink": "https://code.visualstudio.com/updates",
+            "Filename": "VSCodeSetup-stable.exe",
+            "FilePath": "packages/vscode"
+        },
         {
             "Name": "Google Chrome",
             "Build": "53.0.2785.116 m",
@@ -198,25 +225,7 @@
             "ReleaseNotesLink": "",
             "Filename": "TotalPhaseUSB-v2.12.exe",
             "FilePath": "packages/common"
-        },
-        {
-            "Name": ".NET Framework 4.0",
-            "Build": "4.0.30319.17000",
-            "ReleaseDate": "2/21/2011",
-            "Description": "Full offline installer for the .NET Framework 4.0",
-            "ReleaseNotesLink": "https://msdn.microsoft.com/en-us/library/ms171868(v=VS.100).aspx",
-            "Filename": "dotNetFx40_Full_x86_x64.exe",
-            "FilePath": "packages/dotnetframework"
-        },
-        {
-            "Name": ".NET Framework 4.5.2",
-            "Build": "4.0.30319.34000",
-            "ReleaseDate": "5/5/2014",
-            "Description": "Full offline installer for the .NET Framework 4.5.2",
-            "ReleaseNotesLink": "https://msdn.microsoft.com/en-us/library/ms171868(v=vs.110)#v452",
-            "Filename": "NDP452-KB2901907-x86-x64-AllOS-ENU.exe",
-            "FilePath": "packages/dotnetframework"
-        },
+        },       
         {
             "Name": "Anduin",
             "Build": "2015.05.11.0945",
