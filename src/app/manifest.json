@@ -23,7 +23,7 @@
                 },
                 {
                     "Name": "Optokon",
-                    "Build": "1.1.1"
+                    "Build": "20814"
                 },
                 {
                     "Name": "Picotech Data Logger",
@@ -54,7 +54,7 @@
                 },
                 {
                     "Name": "Optokon",
-                    "Build": "1.1.1"
+                    "Build": "20814"
                 },
                 {
                     "Name": "Picotech Data Logger",
@@ -112,7 +112,7 @@
                 },
                 {
                     "Name": "Optokon",
-                    "Build": "1.1.1"
+                    "Build": "20814"
                 }
             ]
         },
@@ -167,10 +167,6 @@
                 {
                     "Name": "Anduin",
                     "Build": "2015.05.11.0945"
-                },
-                {
-                    "Name": "Pokemon Go",
-                    "Build": "1.1.1"
                 }
             ]
         }
@@ -227,7 +223,7 @@
             "ReleaseDate": "05/11/2015",
             "Description": "Anduin installer supporting some stuff",
             "ReleaseNotesLink": "",
-            "Filename": "Anduin_201505110945.exe",
+            "Filename": "AnduinSetup.exe",
             "FilePath": "packages/anduin"
         },
         {
@@ -236,7 +232,7 @@
             "ReleaseDate": "12/13/2015",
             "Description": "Anduin installer with festive Christmas icons",
             "ReleaseNotesLink": "",
-            "Filename": "Anduin_201512231313.exe",
+            "Filename": "AnduinSetup.exe",
             "FilePath": "packages/anduin"
         },
         {
@@ -245,7 +241,7 @@
             "ReleaseDate": "08/15/2016",
             "Description": "Anduin installer supporting MongoDB for measurements",
             "ReleaseNotesLink": "",
-            "Filename": "Anduin_201608151123.exe",
+            "Filename": "AnduinSetup.exe",
             "FilePath": "packages/anduin"
         },
         {
@@ -254,7 +250,7 @@
             "ReleaseDate": "03/29/2012",
             "Description": "Optokon installer",
             "ReleaseNotesLink": "",
-            "Filename": "",
+            "Filename": "Optokon-20814.exe",
             "FilePath": "packages/optokon"
         },
         {
@@ -263,8 +259,8 @@
             "ReleaseDate": "01/01/2001",
             "Description": "Picotech Data Logger installer",
             "ReleaseNotesLink": "",
-            "Filename": "",
-            "FilePath": "packages"
+            "Filename": "Picotech.exe",
+            "FilePath": "packages/picotech"
         },
         {
             "Name": "Atmel Studio",
@@ -290,17 +286,8 @@
             "ReleaseDate": "01/01/2001",
             "Description": "Thorlabs Data Logger installer",
             "ReleaseNotesLink": "",
-            "Filename": "",
-            "FilePath": "packages"
-        },
-        {
-            "Name": "Pokemon Go",
-            "Build": "1.1.1",
-            "ReleaseDate": "01/01/2001",
-            "Description": "Pokemon Go installer",
-            "ReleaseNotesLink": "",
-            "Filename": "",
-            "FilePath": "packages"
+            "Filename": "ThorLabs.exe",
+            "FilePath": "packages/thorlabs"
         }
     ]
 }
