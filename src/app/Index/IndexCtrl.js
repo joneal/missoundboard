@@ -20,7 +20,7 @@
         $scope.Username = '';
         $scope.Copyright = '';
 
-        // var revertToLogin = null;
+        var revertToLogin = null;
 
         $scope.onUsernameClick = function () {
             $scope.Username = '';
@@ -31,26 +31,19 @@
             $window.open('http://rathergood.com/punk_kittens/', '_blank');
         };
 
-        $scope.$on('user-login', function (event, data) {
-            $scope.Username = data;
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+
+            // If no activity in 10 minutes, then return to login page
+            if (next.indexOf('!!home') > -1) {
+                revertToLogin = $timeout(function () {
+                    $window.location.replace('/#/login');
+                }, 10 * 60 * 1000);
+            }
+
+            if (current.indexOf('!!home') > -1) {
+                $timeout.cancel(revertToLogin);
+            }
         });
-
-
-        // $rootScope.$on('$locationChangeStart', function (event, next, current) {
-
-        //     // If no activity in 30 seconds, then return to login page
-        //     if (next.indexOf('!!home') > -1) {
-        //         console.log('Starting logout timer');
-        //         revertToLogin = $timeout(function () {
-        //             $window.location.replace('/#/login');
-        //         }, 30 * 1000);
-        //     }
-
-        //     if (current.indexOf('!!home') > -1) {
-        //         console.log('Stopping logout timer');
-        //         $timeout.cancel(revertToLogin);
-        //     }
-        // });
 
         // Handler for 'notify-message-event', from parent scope
         $scope.$on('notify-message-event', function (e, args) {

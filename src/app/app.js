@@ -18,13 +18,9 @@
             'ngRoute',
             'ngSanitize',
             'ngAnimate',
-            'ngCookies',
             'agGrid',
             'toastr',
-            'ui.bootstrap',
-            //'samtec-blocker', 'samtec-checkbox', 'samtec-focus', 'samtec-highlight-text',
-            //'samtec-navigation', 'samtec-search', 'samtec-validate-email', 'samtec-button-save-effect',
-            'LocalStorageModule'
+            'ui.bootstrap'
         ])
         .config(configHandler)
         .run(runHandler);
@@ -32,19 +28,12 @@
     //
     // Manage configuration items
     //
-    configHandler.$inject = ['$httpProvider', '$provide', 'localStorageServiceProvider'];
+    configHandler.$inject = ['$provide'];
 
-    function configHandler($httpProvider, $provide, localStorageServiceProvider) {
-
-        // Configure $http service to use CORS
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    function configHandler($provide) {
 
         // Wrap the default Angular exception handler
         $provide.decorator('$exceptionHandler', extendExceptionHandler);
-
-        // Configure local storage
-        localStorageServiceProvider.setPrefix('anduin-installer');
     }
 
     extendExceptionHandler.$inject = ['$delegate', '$injector', '$window'];
@@ -67,28 +56,18 @@
     //
     // Manage initialiation items
     //
-    runHandler.$inject = ['$rootScope', '$cookieStore', '$window', '$http', '$location', '$cookies', 'cache', 'localStorageService'];
+    runHandler.$inject = ['$rootScope', '$location', 'cache'];
 
-    function runHandler($rootScope, $cookieStore, $window, $http, $location, $cookies, cache, localStorageService) {     
+    function runHandler($rootScope, $location, cache) {     
 
-        cache.Username = $cookies.get('username') || '';
-        cache.Token = $cookies.get('token') || '';
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+            var loggedIn = (cache.Token !== '');
 
-        if (cache.Token !== '') {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + cache.Token;
-        }
-        else {
-            delete $http.defaults.headers.common.Authorization;
-        }
-
-        // $rootScope.$on('$locationChangeStart', function (event, next, current) {
-        //     var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-        //     var loggedIn = cache.Token;
-
-        //     if (restrictedPage && !loggedIn) {
-        //         $location.path('/login');
-        //     }
-        // });
+            if (restrictedPage && !loggedIn) {
+                $location.path('/login');
+            }
+        });
     }
 
 })();

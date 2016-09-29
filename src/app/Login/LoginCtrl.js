@@ -13,16 +13,13 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$rootScope', '$scope', 'cache', '$timeout', 'LoginService', '$uibModal', '$window', '$cookies', '$http', 'UtilService'];
+    LoginController.$inject = ['$rootScope', '$scope', 'cache', '$timeout', 'LoginService', '$uibModal', '$window', '$http', 'UtilService'];
 
-    function LoginController($rootScope, $scope, cache, $timeout, LoginService, $uibModal, $window, $cookies, $http, UtilService) {
+    function LoginController($rootScope, $scope, cache, $timeout, LoginService, $uibModal, $window, $http, UtilService) {
 
+        cache.Token = '';
 
         $scope.onLoginClick = function () {
-
-            // Clear token and cookie
-            clearAll();
-
             LoginService.LoginUserPwd($scope.User.Username, $scope.User.Password)
                 .then(function success(jwt) {
                     manageSuccessJwt(jwt);
@@ -36,36 +33,11 @@
             var jwtComponents = jwt.split('.');
             var jwtPayload = $window.atob(jwtComponents[1]);
             jwtPayload = JSON.parse(jwtPayload);
-
-            cache.Username = jwtPayload.username;
-            cache.Displayname = jwtPayload.displayname;
-            cache.Role = jwtPayload.role;
             cache.Token = jwt;
-            $http.defaults.headers.common.Authorization = 'Bearer ' + jwt;
-
-            var now = new Date();
-            var exp = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1);
-            $cookies.put('username', cache.Username, { expires: exp });
-            $cookies.put('role', cache.Role, { expires: exp });
-            $cookies.put('token', cache.Token, { expires: exp });
-
-            $rootScope.$broadcast('user-login', cache.Displayname);
-
-            // See if this user is allowed to see admin menu
-            checkPermissions();
-
             $window.location.replace('/#/!!home');
-
-            $scope.User.BadgeNumber = null;
-            $scope.User.Username = null;
-            $scope.User.Password = null;
         }
 
         function manageFailureJwt(err, user) {
-            clearAll();
-
-            $rootScope.$broadcast('user-login', '');
-
             var msg = '';
             switch (err) {
                 case 401:
@@ -81,37 +53,7 @@
                     msg = '';
                     break;
             }
-
-            UtilService.Error(cache.Strings.LOGIN_FAILURE + '<br/><br/><b>' + msg + '</b>');
-
-            $scope.User.BadgeNumber = null;
-            $scope.User.Username = null;
-            $scope.User.Password = null;
+            UtilService.Error('Login failure' + '<br/><br/><b>' + msg + '</b>');
         }
-
-        function clearAll() {
-            cache.Username = '';
-            cache.Displayname = '';
-            cache.Role = '';
-            cache.Token = '';
-            $cookies.remove('username');
-            $cookies.remove('role');
-            $cookies.remove('token');
-            delete $http.defaults.headers.common.Authorization;
-        }
-
-        function checkPermissions() {
-            var role = cache.Role.toUpperCase();
-            var isUserPermitted = (role === 'ADMINISTRATOR' || role === 'MANAGER' || role === 'TECHNICIAN');
-
-            $rootScope.$broadcast('manage-admin-menu', isUserPermitted);
-        }
-
-        //----------------------------------------------------------------------------------------------------
-        // Controller initialization
-        //----------------------------------------------------------------------------------------------------
-        (function init() {
-
-        })();
     }
 })();

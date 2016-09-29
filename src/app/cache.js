@@ -17,7 +17,7 @@
 
     function cache($q, ENV) {
 
-        var app = 'etestinv';
+        var app = 'anduininstaller';
         var secret = '01011976';
         var username = '';
         var displayName = '';

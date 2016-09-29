@@ -44,10 +44,8 @@ var vendorJs = [
     './bower_components/angular-animate/angular-animate.min.js',
     './bower_components/angular-toastr/dist/angular-toastr.min.js',
     './bower_components/angular-toastr/dist/angular-toastr.tpls.min.js',
-    './bower_components/angular-cookies/angular-cookies.min.js',
     './bower_components/lodash/dist/lodash.min.js',
     './bower_components/moment/min/moment.min.js',
-    './bower_components/angular-local-storage/dist/angular-local-storage.min.js',
     './bower_components/ag-grid/dist/ag-grid.min.js',   
     './bower_components/aws-sdk/dist/aws-sdk.min.js'
 ];
