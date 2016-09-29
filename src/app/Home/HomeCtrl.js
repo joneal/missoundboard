@@ -13,9 +13,9 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$window', '$timeout', '$document', '$templateCache', 'cache', '$uibModal', 'UtilService', 'ENV'];
+    HomeController.$inject = ['$scope', '$window', '$timeout', '$document', '$templateCache', 'cache', '$uibModal', 'UtilService', 'AwsService'];
 
-    function HomeController($scope, $window, $timeout, $document, $templateCache, cache, $uibModal, UtilService, ENV) {
+    function HomeController($scope, $window, $timeout, $document, $templateCache, cache, $uibModal, UtilService, AwsService) {
 
         var HEADER_ROW_HEIGHT = 40;
         var ROW_HEIGHT = 40;
@@ -115,16 +115,23 @@
                 }
             }).result.then(function yes() {
 
-                var fileName = pkg.Filename;
-                var filePath = pkg.FilePath + '/' + fileName;
-                var downloadPath = cache.ANDUIN_INSTALLER_URL + '/' + filePath;
+                // Get the signed URL for the object in the bucket
+                AwsService.GetPresignedUrl(pkg.FilePath + '/' + pkg.Filename).then(function (url) {
+                    $window.open(url, '_self');
+                }).catch(function (err) {
+                    UtilService.Error('Error retrieving pre-signed URL for file');
+                });
 
-                $window.open(downloadPath, '_self');
+                // var fileName = pkg.Filename;
+                // var filePath = pkg.FilePath + '/' + fileName;
+                // var downloadPath = cache.ANDUIN_INSTALLER_URL + '/' + filePath;
+
+                // $window.open(downloadPath, '_self');
 
             }, function no() { });
         };
 
-     
+
         // Called when the user clicks on the 'Description' information icon
         $scope.onDescriptionClick = function (data) {
             // Link to release notes, or download?
@@ -136,45 +143,42 @@
         //----------------------------------------------------------------------------------------------------
         (function init() {
 
-            // Download the 'manifest.json' file from S3. It will be used to drive both the 'Stations' and 'Packages' grids.
-            cache.S3.getObject({ Bucket: 'anduin-installers', Key: 'manifest.json' }, function (err, data) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    // The object pulled from S3 will be in the format of "application/octet-stream", which is essentially
-                    // a binary array (in the 'Body' property).  Convert the binary array of data to a string, and then parse
-                    // the string to a JSON object.
-                    var jsonString = String.fromCharCode.apply(null, new Uint16Array(data.Body));
-                    var object = JSON.parse(jsonString);
-                    $scope.Data.Stations = object.Stations;
-                    $scope.Data.Packages = object.Packages;
+            AwsService.GetFile('manifest.json').then(function (data) {
+                // The object pulled from S3 will be in the format of "application/octet-stream", which is essentially
+                // a binary array (in the 'Body' property).  Convert the binary array of data to a string, and then parse
+                // the string to a JSON object.
+                var jsonString = String.fromCharCode.apply(null, new Uint16Array(data.Body));
+                var object = JSON.parse(jsonString);
+                $scope.Data.Stations = object.Stations;
+                $scope.Data.Packages = object.Packages;
 
-                    // Fixup the Packages to support downloading progress
-                    // _.forEach($scope.Data.Packages, function (p) {
-                    //     p.Download = { Active: false, Progress: 0, Error: false };
-                    // });
+                // Fixup the Packages to support downloading progress
+                // _.forEach($scope.Data.Packages, function (p) {
+                //     p.Download = { Active: false, Progress: 0, Error: false };
+                // });
 
-                    // Fixup Packages list in each Station.  Only the 'Name' and 'Build' properties are 
-                    // set in the Packages list of each Station.  So loop thru the general Packages list and find 
-                    // a match based on 'Name' and 'Build'.  Once found, create new properties in the Station Package for 
-                    // ReleaseDate, Description, etc.
-                    _.forEach($scope.Data.Stations, function (station) {
-                        _.forEach(station.Packages, function (stationPackage) {
-                            var p = _.find($scope.Data.Packages, { Name: stationPackage.Name, Build: stationPackage.Build });
-                            if (p) {
-                                stationPackage.ReleaseDate = new Date(p.ReleaseDate);
-                                stationPackage.Description = p.Description;
-                                stationPackage.ReleaseNotesLink = p.ReleaseNotesLink;
-                                stationPackage.Filename = p.Filename;
-                                stationPackage.FilePath = p.FilePath;
-                                // stationPackage.Download = p.Download;
-                            }
-                        });
+                // Fixup Packages list in each Station.  Only the 'Name' and 'Build' properties are 
+                // set in the Packages list of each Station.  So loop thru the general Packages list and find 
+                // a match based on 'Name' and 'Build'.  Once found, create new properties in the Station Package for 
+                // ReleaseDate, Description, etc.
+                _.forEach($scope.Data.Stations, function (station) {
+                    _.forEach(station.Packages, function (stationPackage) {
+                        var p = _.find($scope.Data.Packages, { Name: stationPackage.Name, Build: stationPackage.Build });
+                        if (p) {
+                            stationPackage.ReleaseDate = new Date(p.ReleaseDate);
+                            stationPackage.Description = p.Description;
+                            stationPackage.ReleaseNotesLink = p.ReleaseNotesLink;
+                            stationPackage.Filename = p.Filename;
+                            stationPackage.FilePath = p.FilePath;
+                            // stationPackage.Download = p.Download;
+                        }
                     });
+                });
 
-                    // Start by showing the Stations tab / data.
-                    $scope.onStationsView();
-                }
+                // Start by showing the Stations tab / data.
+                $scope.onStationsView();
+            }).catch(function (err) {
+                console.log(err);
             });
 
         })();

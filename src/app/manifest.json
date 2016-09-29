@@ -97,7 +97,7 @@
                 },
                 {
                     "Name": "Atmel Studio",
-                    "Build": "1.1.1"
+                    "Build": "6.2.2"
                 }
             ]
         },
@@ -297,11 +297,11 @@
         },
         {
             "Name": "Atmel Studio",
-            "Build": "1.1.1",
+            "Build": "6.2.2",
             "ReleaseDate": "01/01/2001",
             "Description": "Atmel Studio installer",
             "ReleaseNotesLink": "",
-            "Filename": "",
+            "Filename": "AtmelStudio.exe",
             "FilePath": "packages/atmel"
         },
         {

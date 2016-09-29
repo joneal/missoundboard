@@ -13,9 +13,9 @@
         .module('Samtec.Anduin.Installer.Web')
         .controller('StationModalController', StationModalController);
 
-    StationModalController.$inject = ['$scope', '$uibModal', '$uibModalInstance', '$window', '$document', '$timeout', 'cache', 'ENV', 'station'];
+    StationModalController.$inject = ['$scope', '$uibModal', '$uibModalInstance', '$window', '$document', '$timeout', 'cache', 'AwsService', 'station'];
 
-    function StationModalController($scope, $uibModal, $uibModalInstance, $window, $document, $timeout, cache, ENV, station) {
+    function StationModalController($scope, $uibModal, $uibModalInstance, $window, $document, $timeout, cache, AwsService, station) {
 
         $scope.Station = station;
 
@@ -34,8 +34,16 @@
                     }
                 }
             }).result.then(function yes() {
-                var downloadPath = createFilePath(pkg);
-                $window.open(downloadPath, '_self');
+
+                // Get the signed URL for the object in the bucket
+                AwsService.GetPresignedUrl(pkg.FilePath + '/' + pkg.Filename).then(function (url) {
+                    $window.open(url, '_self');
+                }).catch(function (err) {
+                    UtilService.Error('Error retrieving pre-signed URL for file');
+                });
+
+                // var downloadPath = createFilePath(pkg);
+                // $window.open(downloadPath, '_self');
             });
         };
 
@@ -48,43 +56,51 @@
 
             // For the list of Packages for a station, create the path to the S3 object(s) to download
             _.forEach($scope.Station.Packages, function (pkg) {
-                var downloadPath = createFilePath(pkg);
-                files.push({ download: downloadPath });
+                files.push(pkg.FilePath + '/' + pkg.Filename);
             });
 
-            // For station specific files, such as README.html and config.xml, create a path to the S3 object(s) to download
-            _.forEach($scope.Station.StationFiles, function(file){
-                var downloadPath = createFilePath({FilePath: $scope.Station.FilePath, Filename: file});
-                files.push({ download: downloadPath});
+            // For station specific files, such as <<readme>>.html and config.zip, create a path to the S3 object(s) to download
+            _.forEach($scope.Station.StationFiles, function (file) {
+                files.push($scope.Station.FilePath + '/' + file);
             });
 
-            downloadFiles(files);
+            // Get the corresponding pre-signed URLs for each of the files to download
+            var finalPromise = new Promise(function (resolve, reject) {
+                var promises = [];
+
+                _.forEach(files, function (file) {
+                    promises.push(AwsService.GetPresignedUrl(file));
+                });
+
+                Promise.all(promises).then(function (urls) {
+                    resolve(urls);
+                }).catch(function(err){
+                    console.log(err);
+                    reject(err);
+                });
+            });
+
+            finalPromise.then(function (urls) {
+                downloadFiles(urls);
+            });
         };
-
-        $scope.onEditConfig = function () {
-
-        };
-
+    
         $scope.onOK = function () {
             $uibModalInstance.close();
         };
 
-        function createFilePath(pkg) {
-            return cache.ANDUIN_INSTALLER_URL + '/' + pkg.FilePath + '/' + pkg.Filename;
-        }
-
         // http://stackoverflow.com/questions/2339440/download-multiple-files-with-a-single-action
-        function downloadFiles(files) {
+        function downloadFiles(urls) {
             function downloadNext(i) {
-                if (i >= files.length) {
+                if (i >= urls.length) {
                     return;
                 }
 
                 var a = document.createElement('a');
-                a.href = files[i].download;
+                a.href = urls[i];
                 a.target = '_parent';
                 a.type = 'application/octet-stream';
-                
+
                 // Add a to the doc for click to work.
 
                 (document.body || $document.documentElement).appendChild(a);

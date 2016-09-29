@@ -38,16 +38,18 @@
         }
 
         function manageFailureJwt(err, user) {
+            $scope.User.Username = '';
+            $scope.User.Password = '';
             var msg = '';
             switch (err) {
                 case 401:
-                    msg = cache.Strings.LOGIN_401;
+                    msg = 'UNAUTHORIZED!';
                     break;
                 case 403:
-                    msg = cache.Strings.LOGIN_403;
+                    msg = 'FORBIDDEN!';
                     break;
                 case 404:
-                    msg = cache.Strings.LOGIN_404;
+                    msg = 'Not Found!';
                     break;
                 default:
                     msg = '';
