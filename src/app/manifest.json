@@ -302,7 +302,7 @@
             "Description": "Atmel Studio installer",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "packages"
+            "FilePath": "packages/atmel"
         },
         {
             "Name": "National Instruments DAQ",
