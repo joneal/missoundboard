@@ -34,16 +34,12 @@
                     }
                 }
             }).result.then(function yes() {
-
                 // Get the signed URL for the object in the bucket
                 AwsService.GetPresignedUrl(pkg.FilePath + '/' + pkg.Filename).then(function (url) {
                     $window.open(url, '_self');
                 }).catch(function (err) {
                     UtilService.Error('Error retrieving pre-signed URL for file');
                 });
-
-                // var downloadPath = createFilePath(pkg);
-                // $window.open(downloadPath, '_self');
             });
         };
 
@@ -65,26 +61,20 @@
             });
 
             // Get the corresponding pre-signed URLs for each of the files to download
-            var finalPromise = new Promise(function (resolve, reject) {
-                var promises = [];
+            var promises = [];
 
-                _.forEach(files, function (file) {
-                    promises.push(AwsService.GetPresignedUrl(file));
-                });
-
-                Promise.all(promises).then(function (urls) {
-                    resolve(urls);
-                }).catch(function(err){
-                    console.log(err);
-                    reject(err);
-                });
+            _.forEach(files, function (file) {
+                promises.push(AwsService.GetPresignedUrl(file));
             });
 
-            finalPromise.then(function (urls) {
+            Promise.all(promises).then(function (urls) {
                 downloadFiles(urls);
+            }).catch(function (err) {
+                console.log(err);
+                reject(err);
             });
         };
-    
+
         $scope.onOK = function () {
             $uibModalInstance.close();
         };

@@ -45,7 +45,7 @@
                     template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Name"></a></span>'
                 },
                 { field: 'Build', headerName: 'Build', width: 50, suppressSorting: true },
-                { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
+                // { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
                 {
                     field: 'Description', headerName: 'Description', suppressSorting: true,
                     template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-if="data.ReleaseNotesLink" ng-click="onDescriptionClick(data);"><i class="fa fa-info-circle"></i></a>'
@@ -63,7 +63,7 @@
                     template: '<span><a href="" ng-click="onPackageClick(data)"; ng-bind="data.Name"></a></span>'
                 },
                 { field: 'Build', headerName: 'Build', width: 50, suppressSorting: true },
-                { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
+                // { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
                 {
                     field: 'Description', headerName: 'Description', suppressSorting: true,
                     template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-if="data.ReleaseNotesLink" ng-click="onDescriptionClick(data);"><i class="fa fa-info-circle"></i></a>'
@@ -77,9 +77,9 @@
         };
 
         // Show any dates in local 'MMM d, yyyy' format
-        function dateRenderer(params) {
-            return moment(new Date(params.data.ReleaseDate)).format('ll');
-        }
+        // function dateRenderer(params) {
+        //     return moment(new Date(params.data.ReleaseDate)).format('ll');
+        // }
 
         // Called when the user clicks on the 'Station' name i.e. the link
         $scope.onStationClick = function (data) {
@@ -122,19 +122,12 @@
                     UtilService.Error('Error retrieving pre-signed URL for file');
                 });
 
-                // var fileName = pkg.Filename;
-                // var filePath = pkg.FilePath + '/' + fileName;
-                // var downloadPath = cache.ANDUIN_INSTALLER_URL + '/' + filePath;
-
-                // $window.open(downloadPath, '_self');
-
             }, function no() { });
         };
 
 
         // Called when the user clicks on the 'Description' information icon
         $scope.onDescriptionClick = function (data) {
-            // Link to release notes, or download?
             $window.open(data.ReleaseNotesLink, '_blank');
         };
 
