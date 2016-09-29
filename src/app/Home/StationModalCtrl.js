@@ -45,10 +45,19 @@
 
         $scope.onStationPackages = function () {
             var files = [];
+
+            // For the list of Packages for a station, create the path to the S3 object(s) to download
             _.forEach($scope.Station.Packages, function (pkg) {
                 var downloadPath = createFilePath(pkg);
-                files.push({ filename: downloadPath, download: downloadPath });
+                files.push({ download: downloadPath });
             });
+
+            // For station specific files, such as README.html and config.xml, create a path to the S3 object(s) to download
+            _.forEach($scope.Station.StationFiles, function(file){
+                var downloadPath = createFilePath({FilePath: $scope.Station.FilePath, Filename: file});
+                files.push({ download: downloadPath});
+            });
+
             downloadFiles(files);
         };
 
@@ -74,10 +83,8 @@
                 var a = document.createElement('a');
                 a.href = files[i].download;
                 a.target = '_parent';
-                // Use a.download if available, it prevents plugins from opening.
-                // if ('download' in a) {
-                //     a.download = files[i].filename;
-                // }
+                a.type = 'application/octet-stream';
+                
                 // Add a to the doc for click to work.
 
                 (document.body || $document.documentElement).appendChild(a);
@@ -86,8 +93,10 @@
                 } else {
                     $(a).click(); // Backup using jquery
                 }
+
                 // Delete the temporary link.               
                 a.parentNode.removeChild(a);
+
                 // Download the next file with a small timeout. The timeout is necessary
                 // for IE, which will otherwise only download the first file.
                 setTimeout(function () { downloadNext(i + 1); }, 500);

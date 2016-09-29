@@ -7,8 +7,12 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations",
-            "Packages": [               
+            "FilePath": "stations/optics-rf-tester",
+            "StationFiles": [
+                "config.zip",
+                "Optics RF Tester.html"
+            ],
+            "Packages": [
                 {
                     "Name": "National Instruments",
                     "Build": "4882"
@@ -38,7 +42,11 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations",
+            "FilePath": "stations/optics-dc-tester",
+            "StationFiles": [
+                "config.zip",
+                "Optics DC Tester.html"
+            ],
             "Packages": [
                 {
                     "Name": "National Instruments",
@@ -69,7 +77,11 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations",
+            "FilePath": "stations/micro-programmer",
+            "StationFiles": [
+                "config.zip",
+                "Micro Programmer.html"
+            ],
             "Packages": [
                 {
                     "Name": "National Instruments",
@@ -96,7 +108,11 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations",
+            "FilePath": "stations/optics-fiber-attach",
+            "StationFiles": [
+                "config.zip",
+                "Optics Fiber Attach.html"
+            ],
             "Packages": [
                 {
                     "Name": "National Instruments",
@@ -123,7 +139,11 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations",
+            "FilePath": "stations/hdr-leakage-tester",
+            "StationFiles": [
+                "config.zip",
+                "HDR Leakage Tester.html"
+            ],
             "Packages": [
                 {
                     "Name": "National Instruments",
@@ -154,7 +174,11 @@
             "Description": "",
             "ReleaseNotesLink": "",
             "Filename": "",
-            "FilePath": "stations",
+            "FilePath": "stations/hdr-rf-tester",
+            "StationFiles": [
+                "config.zip",
+                "HDR RF Tester.html"
+            ],
             "Packages": [
                 {
                     "Name": "National Instruments",
@@ -172,7 +196,7 @@
         }
     ],
     "Packages": [
-         {
+        {
             "Name": ".NET Framework 4.0",
             "Build": "4.0.30319.17000",
             "ReleaseDate": "2/21/2011",
@@ -225,7 +249,7 @@
             "ReleaseNotesLink": "",
             "Filename": "TotalPhaseUSB-v2.12.exe",
             "FilePath": "packages/common"
-        },       
+        },
         {
             "Name": "Anduin",
             "Build": "2015.05.11.0945",
