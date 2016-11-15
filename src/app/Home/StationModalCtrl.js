@@ -105,7 +105,7 @@
 
                 // Download the next file with a small timeout. The timeout is necessary
                 // for IE, which will otherwise only download the first file.
-                setTimeout(function () { downloadNext(i + 1); }, 500);
+                setTimeout(function () { downloadNext(i + 1); }, 1500);
             }
             // Initiate the first download.
             downloadNext(0);
