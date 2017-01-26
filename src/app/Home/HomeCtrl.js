@@ -45,7 +45,6 @@
                     template: '<span><a href="" ng-click="onStationClick(data)"; ng-bind="data.Name"></a></span>'
                 },
                 { field: 'Build', headerName: 'Build', width: 50, suppressSorting: true },
-                // { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
                 {
                     field: 'Description', headerName: 'Description', suppressSorting: true,
                     template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-if="data.ReleaseNotesLink" ng-click="onDescriptionClick(data);"><i class="fa fa-info-circle"></i></a>'
@@ -63,7 +62,6 @@
                     template: '<span><a href="" ng-click="onPackageClick(data)"; ng-bind="data.Name"></a></span>'
                 },
                 { field: 'Build', headerName: 'Build', width: 50, suppressSorting: true },
-                // { field: 'ReleaseDate', headerName: 'Release Date', width: 50, suppressSorting: true, cellRenderer: dateRenderer },
                 {
                     field: 'Description', headerName: 'Description', suppressSorting: true,
                     template: '<span ng-bind="data.Description"></span>&nbsp;<a href="" ng-if="data.ReleaseNotesLink" ng-click="onDescriptionClick(data);"><i class="fa fa-info-circle"></i></a>'
