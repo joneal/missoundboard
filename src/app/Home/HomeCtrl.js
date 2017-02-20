@@ -17,6 +17,8 @@
 
     function HomeController($scope, $window, $timeout, $document, $templateCache, cache, $uibModal, UtilService, AwsService) {
 
+        $scope.IsAdmin = cache.Token.role === 'ADMIN';
+
         var HEADER_ROW_HEIGHT = 40;
         var ROW_HEIGHT = 40;
 
@@ -129,6 +131,63 @@
             $window.open(data.ReleaseNotesLink, '_blank');
         };
 
+        $scope.onEditManifest = function () {
+            $uibModal.open({
+                templateUrl: 'Home/EditManifestModal.html',
+                controller: 'EditManifestModalController',
+                animation: false,
+                size: 'manifest-editor',
+                resolve: {
+                    manifest: function () {
+                        return $scope.Manifest;
+                    }
+                }
+            }).result.then(function ok(manifestData) {
+
+                // Save new Manifest.json back to S3
+                AwsService.PutObject('manifest.json', JSON.stringify(manifestData))
+                    .then(function succcess() {
+                        processManifest(manifestData);
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        UtilService.Error('Error saving manifest.json - ' + err);
+                    });
+            });
+        };
+
+        function processManifest(manifestData) {
+            $scope.Manifest = manifestData;
+            $scope.Data.Stations = manifestData.Stations;
+            $scope.Data.Packages = manifestData.Packages;
+
+            // Fixup the Packages to support downloading progress
+            // _.forEach($scope.Data.Packages, function (p) {
+            //     p.Download = { Active: false, Progress: 0, Error: false };
+            // });
+
+            // Fixup Packages list in each Station.  Only the 'Name' and 'Build' properties are 
+            // set in the Packages list of each Station.  So loop thru the general Packages list and find 
+            // a match based on 'Name' and 'Build'.  Once found, create new properties in the Station Package for 
+            // ReleaseDate, Description, etc.
+            _.forEach($scope.Data.Stations, function (station) {
+                _.forEach(station.Packages, function (stationPackage) {
+                    var p = _.find($scope.Data.Packages, { Name: stationPackage.Name, Build: stationPackage.Build });
+                    if (p) {
+                        stationPackage.ReleaseDate = new Date(p.ReleaseDate);
+                        stationPackage.Description = p.Description;
+                        stationPackage.ReleaseNotesLink = p.ReleaseNotesLink;
+                        stationPackage.Filename = p.Filename;
+                        stationPackage.FilePath = p.FilePath;
+                        // stationPackage.Download = p.Download;
+                    }
+                });
+            });
+
+            // Start by showing the Stations tab / data.
+            $scope.onStationsView();
+        }
+
         //----------------------------------------------------------------------------------------------------
         // Controller initialization
         //----------------------------------------------------------------------------------------------------
@@ -140,6 +199,7 @@
                 // the string to a JSON object.
                 var jsonString = String.fromCharCode.apply(null, new Uint16Array(data.Body));
                 var object = JSON.parse(jsonString);
+                $scope.Manifest = object;
                 $scope.Data.Stations = object.Stations;
                 $scope.Data.Packages = object.Packages;
 
@@ -170,6 +230,7 @@
                 $scope.onStationsView();
             }).catch(function (err) {
                 console.log(err);
+                UtilService.Error('Error retrieving / processing manifest.json - ' + err);
             });
 
         })();

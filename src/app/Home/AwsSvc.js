@@ -30,7 +30,20 @@
                 s3.getObject(params, function (err, data) {
                     if (!err) {
                         resolve(data);
-                    } else {                        
+                    } else {
+                        reject(err);
+                    }
+                });
+            });
+        }
+
+        function putObject(key, object) {
+            return new Promise(function (resolve, reject) {
+                var params = { Bucket: BUCKET, Key: key, Body: object, ACL: 'public-read-write' };
+                s3.putObject(params, function (err, data) {
+                    if (!err) {
+                        resolve(data);
+                    } else {
                         reject(err);
                     }
                 });
@@ -53,6 +66,7 @@
 
         return {
             GetFile: getFile,
+            PutObject: putObject,
             GetPresignedUrl: getPresignedUrl
         };
     }

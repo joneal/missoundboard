@@ -20,7 +20,8 @@
             'ngAnimate',
             'agGrid',
             'toastr',
-            'ui.bootstrap'
+            'ui.bootstrap',
+            'ng.jsoneditor'            
         ])
         .config(configHandler)
         .run(runHandler);

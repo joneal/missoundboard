@@ -46,6 +46,8 @@ var vendorJs = [
     './bower_components/angular-toastr/dist/angular-toastr.tpls.min.js',
     './bower_components/lodash/dist/lodash.min.js',
     './bower_components/moment/min/moment.min.js',
+    './bower_components/jsoneditor/dist/jsoneditor.min.js',
+    './bower_components/ng-jsoneditor/ng-jsoneditor.min.js',    
     './bower_components/ag-grid/dist/ag-grid.min.js',   
     './bower_components/aws-sdk/dist/aws-sdk.min.js'
 ];
@@ -53,7 +55,8 @@ var vendorJs = [
 // Only glob specific vendor style sheet files
 var vendorCss = [
     './bower_components/bootstrap/dist/css/bootstrap.css',
-    './bower_components/angular-toastr/dist/angular-toastr.css'
+    './bower_components/angular-toastr/dist/angular-toastr.css',
+    './bower_components/jsoneditor/dist/jsoneditor.min.css',    
 ];
 
 // Glob ALL application JavaScript files

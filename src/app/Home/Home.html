@@ -1,5 +1,10 @@
 <div class="l-view grow">
     <div class="l-body grow">
+        <div class="row pull-right" style="padding-right:20px;">
+            <div ng-if="IsAdmin">
+                <button class="btn" ng-click="onEditManifest();"><i class="fa fa-star"></i></button>
+            </div>
+        </div>
         <ul class="nav nav-tabs">
             <li ng-class="{'active' : ActiveTab == 0, 'active-tab' : ActiveTab == 0}"><a ng-click="onStationsView();">Stations</a></li>
             <li ng-class="{'active' : ActiveTab == 1, 'active-tab' : ActiveTab == 1}"><a ng-click="onPackagesView();">Packages</a></li>
@@ -12,5 +17,3 @@
         </div>
     </div>
 </div>
-
-

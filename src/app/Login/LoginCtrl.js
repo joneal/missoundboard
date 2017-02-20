@@ -33,7 +33,7 @@
             var jwtComponents = jwt.split('.');
             var jwtPayload = $window.atob(jwtComponents[1]);
             jwtPayload = JSON.parse(jwtPayload);
-            cache.Token = jwt;
+            cache.Token = jwtPayload;            
             $window.location.replace('/#/!!home');
         }
 

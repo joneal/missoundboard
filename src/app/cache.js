@@ -21,7 +21,7 @@
         var secret = '01011976';
         var username = '';
         var displayName = '';
-        var roles = [];
+        var role = '';
         var token = '';
 
         // Download from AWS S3 via service?
@@ -44,7 +44,7 @@
             Secret: secret,
             Username: username,
             Displayname: displayName,
-            Roles: roles,
+            Role: role,
             Token: token,
             S3: s3,
             ANDUIN_INSTALLER_URL: anduinInstallerUrl

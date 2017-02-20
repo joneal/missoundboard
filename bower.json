@@ -33,6 +33,7 @@
     "moment-timezone": "^0.5.4",
     "hammerjs": "^2.0.8",
     "toastr": "^2.1.3",
-    "aws-sdk": "aws-sdk-js#^2.6.3"
+    "aws-sdk": "aws-sdk-js#^2.6.3",
+    "ng-jsoneditor": "^1.0.0"
   }
 }
