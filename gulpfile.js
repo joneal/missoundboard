@@ -46,8 +46,8 @@ var vendorJs = [
     './bower_components/angular-toastr/dist/angular-toastr.tpls.min.js',
     './bower_components/lodash/dist/lodash.min.js',
     './bower_components/moment/min/moment.min.js',
-    './bower_components/jsoneditor/dist/jsoneditor.min.js',
-    './bower_components/ng-jsoneditor/ng-jsoneditor.min.js',    
+    './bower_components/jsoneditor/dist/jsoneditor.js',
+    './bower_components/ng-jsoneditor/ng-jsoneditor.js',    
     './bower_components/ag-grid/dist/ag-grid.min.js',   
     './bower_components/aws-sdk/dist/aws-sdk.min.js'
 ];
@@ -56,7 +56,7 @@ var vendorJs = [
 var vendorCss = [
     './bower_components/bootstrap/dist/css/bootstrap.css',
     './bower_components/angular-toastr/dist/angular-toastr.css',
-    './bower_components/jsoneditor/dist/jsoneditor.min.css',    
+    './bower_components/jsoneditor/dist/jsoneditor.css',    
 ];
 
 // Glob ALL application JavaScript files
@@ -103,9 +103,15 @@ gulp.task('bower', function () {
     return bower();
 });
 
-// Delete the contents of the distribution folder. 
-gulp.task('clean', function () {
-    return gulp.src(distFolder + '/*')
+// Delete the app-*.* artifacts. 
+gulp.task('clean-app', function () {
+    return gulp.src(distFolder + 'app-*.*', {read:false})
+        .pipe(clean());
+});
+
+// Delete the vendor-*.* artifacts. 
+gulp.task('clean-vendor', function () {
+    return gulp.src(distFolder + 'vendor-*.*', {read:false})
         .pipe(clean());
 });
 
@@ -130,7 +136,7 @@ gulp.task('version', function(){
 gulp.task('appcss', function () {
     return gulp.src(applicationCss)
         .pipe(concatCss('app.css'))
-        .pipe(minifyCss())
+        //.pipe(minifyCss())
         .pipe(rev())
         .pipe(gulp.dest(distFolder));
 });
@@ -139,7 +145,7 @@ gulp.task('appcss', function () {
 gulp.task('vendorcss', function () {
     return gulp.src(vendorCss)
         .pipe(concatCss('vendor.css'))
-        .pipe(minifyCss())
+        //.pipe(minifyCss())
         .pipe(rev())
         .pipe(gulp.dest(distFolder));
 });
@@ -148,7 +154,7 @@ gulp.task('vendorcss', function () {
 gulp.task('appjs', function () {
     return gulp.src(applicationJs)
         .pipe(concatJs('app.js'))
-        .pipe(uglify())
+        //.pipe(uglify())
         .on('error', notify.onError("Error: <%= error.message %>"))
         .pipe(rev())
         .pipe(gulp.dest(distFolder));
@@ -206,7 +212,8 @@ gulp.task('watch', function(){
 
 // The "deploy" task.  Process CSS and JS files, in proper sequence, and copy results to distribution folder.
 gulp.task('deploy', sequence('bower',
-                             'clean',
+                             'clean-app',
+                             'clean-vendor',
                              'less',
                              'html',
                              'copy',
@@ -214,7 +221,8 @@ gulp.task('deploy', sequence('bower',
                              ['appcss', 'vendorcss', 'appjs', 'vendorjs'],
                              'index'));
                               
-gulp.task('default', sequence('clean',
+gulp.task('default', sequence('clean-app',
+                              'clean-vendor',
                               'less',
                               'html',
                               'copy',
