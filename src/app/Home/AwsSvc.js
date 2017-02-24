@@ -39,7 +39,7 @@
 
         function putObject(key, object) {
             return new Promise(function (resolve, reject) {
-                var params = { Bucket: BUCKET, Key: key, Body: object, ACL: 'public-read-write' };
+                var params = { Bucket: BUCKET, Key: key, Body: object };
                 s3.putObject(params, function (err, data) {
                     if (!err) {
                         resolve(data);

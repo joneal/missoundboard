@@ -18,8 +18,7 @@
                 'protocol': 'https',
                 'server': 'atgusersvc.samtec-atg.com',
                 'port': 5820
-            },
-            // Read-only access
+            },         
             AWS_ACCESS_KEY_ID: 'AKIAIFUWTEIEHBBWP5UA',
             AWS_SECRET_ACCESS_KEY: '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'
         });
