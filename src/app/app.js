@@ -9,22 +9,13 @@
 
     'use strict';
 
-    // get ag-Grid to create an Angular module and register the ag-Grid directive
-    agGrid.initialiseAgGridWithAngular1(angular);
-
     angular
-        .module('Samtec.Anduin.Installer.Web', [
-            'config',
+        .module('Samtec.MIS.Soundboard.Web', [
             'ngRoute',
-            'ngSanitize',
-            'ngAnimate',
-            'agGrid',
             'toastr',
-            'ui.bootstrap',
-            'ng.jsoneditor'            
+            'ui.bootstrap'          
         ])
-        .config(configHandler)
-        .run(runHandler);
+        .config(configHandler);
 
     //
     // Manage configuration items
@@ -37,10 +28,10 @@
         $provide.decorator('$exceptionHandler', extendExceptionHandler);
     }
 
-    extendExceptionHandler.$inject = ['$delegate', '$injector', '$window'];
+    extendExceptionHandler.$inject = ['$delegate', '$injector'];
 
     // Extend the default Angular exception handler
-    function extendExceptionHandler($delegate, $injector, $window) {
+    function extendExceptionHandler($delegate, $injector) {
         return function (exception, cause) {
             $delegate(exception, cause);
 
@@ -49,26 +40,8 @@
             $injector.invoke(function (toastr) {
                 var msg2 = (cause !== undefined) ? cause : '';
                 toastr.error(exception.message + '  ' + msg2, 'Anduin Installer Exception');
-                $window.location.replace('/#/login/');
             });
         };
-    }
-
-    //
-    // Manage initialiation items
-    //
-    runHandler.$inject = ['$rootScope', '$location', 'cache'];
-
-    function runHandler($rootScope, $location, cache) {     
-
-        $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-            var loggedIn = (cache.Token !== '');
-
-            if (restrictedPage && !loggedIn) {
-                $location.path('/login');
-            }
-        });
     }
 
 })();

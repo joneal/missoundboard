@@ -34,29 +34,29 @@ var indexDest = distFolderRoot + '/index.html';
 
 // Only glob specific vendor JavaScript files
 var vendorJs = [
-    './bower_components/jquery/dist/jquery.min.js',
-    './bower_components/bootstrap/dist/js/bootstrap.min.js',
+    // './bower_components/jquery/dist/jquery.min.js',
+    // './bower_components/bootstrap/dist/js/bootstrap.min.js',
     './bower_components/angular/angular.min.js',
     './bower_components/angular-route/angular-route.min.js',
-    './bower_components/angular-sanitize/angular-sanitize.min.js',
+    // './bower_components/angular-sanitize/angular-sanitize.min.js',
     './bower_components/angular-bootstrap/ui-bootstrap.min.js',
     './bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
     './bower_components/angular-animate/angular-animate.min.js',
     './bower_components/angular-toastr/dist/angular-toastr.min.js',
-    './bower_components/angular-toastr/dist/angular-toastr.tpls.min.js',
-    './bower_components/lodash/dist/lodash.min.js',
-    './bower_components/moment/min/moment.min.js',
-    './bower_components/jsoneditor/dist/jsoneditor.js',
-    './bower_components/ng-jsoneditor/ng-jsoneditor.js',    
-    './bower_components/ag-grid/dist/ag-grid.min.js',   
-    './bower_components/aws-sdk/dist/aws-sdk.min.js'
+    './bower_components/angular-toastr/dist/angular-toastr.tpls.min.js'
+    // './bower_components/lodash/dist/lodash.min.js',
+    // './bower_components/moment/min/moment.min.js',
+    // './bower_components/jsoneditor/dist/jsoneditor.js',
+    // './bower_components/ng-jsoneditor/ng-jsoneditor.js',    
+    // './bower_components/ag-grid/dist/ag-grid.min.js',   
+    // './bower_components/aws-sdk/dist/aws-sdk.min.js'
 ];
 
 // Only glob specific vendor style sheet files
 var vendorCss = [
-    './bower_components/bootstrap/dist/css/bootstrap.css',
-    './bower_components/angular-toastr/dist/angular-toastr.css',
-    './bower_components/jsoneditor/dist/jsoneditor.css',    
+    // './bower_components/bootstrap/dist/css/bootstrap.css',
+    // './bower_components/angular-toastr/dist/angular-toastr.css',
+    // './bower_components/jsoneditor/dist/jsoneditor.css',    
 ];
 
 // Glob ALL application JavaScript files
@@ -66,8 +66,8 @@ var applicationJs = [
 
 // Glob ALL application style sheet files
 var applicationCss = [    
-    srcFolderRoot + '/assets/app.css',
-    srcFolderRoot + '/assets/theme-samtec.css'
+    srcFolderRoot + '/assets/app.css'
+    // srcFolderRoot + '/assets/theme-samtec.css'
 ];
 
 // Glob ALL application LESS files
@@ -200,7 +200,7 @@ gulp.task('less', function() {
 // Load all templates into a template cache
 gulp.task('html', function () {
   return gulp.src('src/app/**/*.html')
-    .pipe(templateCache('templates.js', {module:'Samtec.Anduin.Installer.Web'}))
+    .pipe(templateCache('templates.js', {module:'Samtec.MIS.Soundboard.Web'}))
     .pipe(gulp.dest(srcFolderRoot + '/app'));
 });
 
